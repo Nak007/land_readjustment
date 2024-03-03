@@ -1,28 +1,36 @@
 '''
 Available methods are the followings:
-[1] Monitoring
-[2] ModifiedEncoder
+[1] Monitoring <class>
+[2] ModifiedEncoder <class>
+[3] MonitoringAction <class>
+[4] create_folder
+[5] get_cohort
+[6] ConfigParser
 
 Authors: Danusorn Sitdhirasdr <danusorn.si@gmail.com>
 versionadded:: 29-02-2024
 
 '''
-import pandas as pd, numpy as np, re
+import pandas as pd, numpy as np, re, os, glob
 from collections import namedtuple, OrderedDict
-import AssoruleMining as ARM
 from AssoruleMining import *
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LinearRegression
-
 from itertools import product
 from scipy import stats
-
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.ticker as ticker
 import matplotlib.transforms as transforms
+import warnings
+from datetime import datetime, timedelta, date
 
-__all__ = ["Monitoring", "ModifiedEncoder"]
+__all__ = ["Monitoring", 
+           "ModifiedEncoder", 
+           "MonitoringAction", 
+           "create_folder", 
+           "get_cohort", 
+           "ConfigParser"]
 
 class ValidateParams:
     
@@ -143,7 +151,7 @@ class ValidateParams:
 class SetParameters:
     
     # Set1 : ['#1f77b4', '#ff7f0e', '#2ca02c', '#E9EAEC']
-    # Set2 : ['#1B9CFC', '#FAD02C', '#FC427B', '#E9EAEC']
+    # Set2 : ['#4b7bec', '#f7b731', '#eb3b5a', '#E9EAEC']
     # Set3 : ["#677880", "#292400", "#EF3340", "#EBECE0"]
         
     def __init__(self):
@@ -151,7 +159,7 @@ class SetParameters:
         '''Initial parameters'''
         self.n_xticks = 9
         self.n_yticks = 6
-        self.colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#E9EAEC']
+        self.colors = ['#4b7bec', '#f7b731', '#eb3b5a', '#E9EAEC']
         self.format = "{:,.2%}".format
         
     def __tickers__(self, ax, axis="y", percent=False):
@@ -269,7 +277,8 @@ class CalculateOKR:
 
 class CreateResult:
     
-    periods = [3, 6, 9, 12]
+    # Short, medium, and long term
+    periods = [3, 6, 12]
 
     def __CreateResult__(self):
         
@@ -286,7 +295,6 @@ class CreateResult:
             
             - '<ind>_latest' : the latest value of indicator
             - '<ind>_okr' : okr of indicator
-            - '<ind>_delta' : '<ind>_latest' - '<ind>_okr' (difference)
             - '<var>_Last<period>M' : multi-period coefficients (slopes) 
               of variable
             
@@ -319,9 +327,10 @@ class CreateResult:
         values = dict()
         for field in data.indicator._fields:
             t = getattr(data.indicator, field)
+            ratio = t.values[-1] / t.okr
             values.update({f"{field}_latest": t.values[-1], 
                            f"{field}_okr": t.okr,
-                           f"{field}_delta": t.values[-1] - t.okr})
+                           f"{field}_ratio" : t.values[-1] / t.okr})
         return values
     
     def __slope__(self, x, field):
@@ -365,7 +374,7 @@ class RuleExpression:
     
     '''
     Create expression statement from rule generated from 
-    `TreeRuleMining`
+    `TreeRuleMining`.
     
     Attributes
     ----------
@@ -383,17 +392,20 @@ class RuleExpression:
         ----------
         estimator : TreeRuleMining instance
             An instance must only be fitted with data that processed by
-            `ModifiedEncoder`.
+            `ModifiedEncoder` (onehot-encoded).
         
         Returns
         -------
         self
         
         '''
-        if not isinstance(estimator, ARM.TreeRuleMining):
+        if not isinstance(estimator, TreeRuleMining):
             raise ValueError(f"`estimator` must be TreeRuleMining. "
                              f"Got {type(estimator)} instead.")
-        
+        elif getattr(estimator, "rules", None) is None:
+            raise ValueError("`estimator` must be fitted.")
+        else: pass
+                
         self.expr_ = dict()
         self.cond_ = dict()
         for key in estimator.rules.keys():
@@ -503,6 +515,11 @@ class PlotIndicator:
         labels  += ["Credit Limit (MB)"]
         self.__vbartext__(ax2, patches[-1])
         
+        # Set n_xticks
+        n = len(limit)
+        if (n/2-n//2)==0: self.n_xticks = n/2+1
+        else: self.n_xticks = int(np.ceil(n/2))
+        
         # Number and format of tickers
         self.__tickers__(ax1, "y", True)
         self.__tickers__(ax1, "x", False)
@@ -581,6 +598,8 @@ class Monitoring(ValidateParams, SetParameters, CalculateOKR,
         # Validate quarter
         unq_quarters = ["q1", "q2", "q3", "q4"]
         self.quarter = self.StrOptions('quarter', quarter, unq_quarters, str)
+        okr_quarters = np.unique(okrs["quarter"]).tolist()
+        if self.quarter not in okr_quarters: self.quarter = okr_quarters[0]
         
         # OKR table
         cond = (okrs["product_tp"]==self.product) & (okrs["quarter"]==self.quarter)
@@ -647,7 +666,6 @@ class Monitoring(ValidateParams, SetParameters, CalculateOKR,
             
             - '<ind>_latest' : the latest value of indicator
             - '<ind>_okr' : okr of indicator
-            - '<ind>_delta' : '<ind>_latest' - '<ind>_okr' (difference)
             - '<var>_Last<period>M' : multi-period coefficients (slopes) 
               of variable
               
@@ -663,14 +681,14 @@ class Monitoring(ValidateParams, SetParameters, CalculateOKR,
         if isinstance(queries, dict):
             X_out = self.transform(X, queries)
             X_new = X_new.merge(X_out, left_index=True, right_index=True)
-
+            
         # Select rules from columns in X_
         if self.estimator is None:
             arm_rules = [c for c in list(X_new) 
-                         if len(re.findall("^Rule_[1-9]",c))]
-        
+                         if len(re.findall("^Rule_[1-9]+",c))]
         # Otherwise select rules from estimator
         else: arm_rules = list(self.estimator.rules.keys())
+            
         self.rules_ = ["Rule_all", "Rule_0"] + arm_rules
         self.asof = X_new["cohort_fr"].max()
         
@@ -704,6 +722,8 @@ class Monitoring(ValidateParams, SetParameters, CalculateOKR,
             # Query expression for pd.query
             query = (" and ".join(self.expr_[which]) 
                      if which in self.expr_.keys() else None)
+            if isinstance(queries, dict): 
+                query = queries[which] if which in queries.keys() else None
                    
             # New pattern is assigned to the next index.
             key  = self.__index__(which)
@@ -755,13 +775,14 @@ class Monitoring(ValidateParams, SetParameters, CalculateOKR,
              raise ValueError(f"`queries` must be dict. "
                               f"Got {type(queries)} instead.")
         else: rules = [c for c in queries.keys() 
-                       if len(re.findall("^Rule_[1-9]",c))]
-        
+                       if len(re.findall("^Rule_[1-9]+",c))]
+        if len(rules)==0: warnings.warn("No rule found.")
+
         X_out = dict()
         for key in rules:
             index = X.query(queries[key]).index
             X_out[key] = np.where(X.index.isin(index), True, False)
-                
+            
         return pd.DataFrame(X_out)
  
     def plot(self, display=None, which=None, ax=None):
@@ -870,3 +891,458 @@ class ModifiedEncoder:
         self.fit(X[self.categories_])
         X_new = self.transform(X[self.categories_])
         return X_new
+
+class MonitoringAction(ValidateParams):
+    
+    '''
+    Methods
+    -------
+    1. `define_action` : assign action to pattern from `estimator`.
+    2. `add_pattern` : add new pattern to monitoring list.
+    3. `get_query` : extract query from monitoring list.
+    4. `add_status` : add new status from `estimator` to patterns
+    
+    Parameters
+    ----------
+    mapping : dict
+        Map new value under `okr_type` column in `cascaded_okr.csv`
+        e.g. {"old_value" : "new_value"}. 
+    
+    factor : float, default=0.8
+        The factor with range of (0,1). For more information, see 
+        `define_actions`.
+    
+    '''
+    
+    def __init__(self, mapping, factor=0.8):
+        
+        attrs = {"ind2"   : (ind2 := mapping["ind2"]),
+                 "ind3"   : (ind3 := mapping["ind3"]),
+                 "ratio2" : f"{ind2}_ratio",
+                 "ratio3" : f"{ind3}_ratio",
+                 "ind3m3" : f"{ind3}_Last03M", 
+                 "factor" : self.Interval("factor", factor, 
+                                          float, 0, 1, "neither"), 
+                 "user"   : os.environ.get('USERNAME'), 
+                 "action" : ["action", "monitor", "no-action"],
+                 "status" : ["(1) monitor", "(2) cancelled", "(3) closed"],
+                 "format" : '%Y-%m-%d %H:%M:%S'}
+        
+        for key,value in attrs.items():
+            setattr(self, key, value)
+            
+    def __estimator__(self, estimator):
+        
+        cls_name = estimator.__class__.__name__
+        if cls_name != "Monitoring":
+            raise ValueError(f"`estimator` must be Monitoring. "
+                             f"Got {cls_name} instead.")
+            
+        if getattr(estimator, "results_", None) is None:
+            raise ValueError("`estimator` must be fitted.")
+            
+    def __dataframe__(self, X, name):
+        
+        if not isinstance(X, pd.DataFrame):
+            raise ValueError(f"`{name}` must be pandas DataFrame. "
+                             f"Got {type(X)} instead.")
+
+    def define_action(self, estimator):
+        
+        '''
+        Assign action to all patterns found in `estimator`. The criteria 
+        are as follows:
+        
+            - "action"    : (R(2) > 1.0) and (R(3) > 1.0) 
+            - "monitor"   : ((R(2) < 1.0) and (R(3) > 1.0)) or
+                            ((factor <= R(3) <= 1.0) and (C(3,3) > 0))
+            - "no-action" : (0.0 <= R(3) < factor) or none of above
+
+            where 
+            - R(k) = I(k) / OKR(k)
+            - I(k) = Indicator k from the latest mature month 
+            - C(k,m) = coefficient (trend) of indicator k in last m months
+            - k = {1, 2, 3}, nth indicator
+
+        Parameters
+        ----------
+        estimator : RiskPattern.Monitoring instance
+            An instance must be fitted.
+        
+        Returns
+        -------
+        results : pd.DataFrame
+            An attribute `Monitoring.result_` is converted into a pandas 
+            DataFrame with additional columns as follows: 
+                - "action"    : {"action", "monitor", "no_action"}
+                - "update0"   : date-time ('%Y-%m-%d %H:%M:%S')
+                - "username0" : user name
+        
+        Attributes
+        ----------
+        book_cohort_ : str
+            The booking cohort i.e. max(self.result_["asof"]).
+            
+        prev_cohort_ : str
+            The cohort one month before `book_cohort_`.
+            
+        '''
+        self.__estimator__(estimator)
+        results = pd.DataFrame(estimator.results_)
+            
+        # Action ==> "action"
+        cond = (results[self.ratio2]>1) & (results[self.ratio3]>1)
+        results["action"] = np.where(cond, self.action[0], self.action[-1])
+        
+        # Action ==> "monitor"
+        args = (self.factor, 1, "both")
+        cond = (results[self.ratio3]>1) & (results[self.ratio2]<1 )
+        cond|= (results[self.ind3m3]>0) & (results[self.ratio3].between(*args))
+        results["action"] = np.where(cond, self.action[1], results["action"]) 
+        
+        # Action ==> "no-action"
+        cond = results["name"].isin(["Rule_all", "Rule_0"])
+        results["action"] = np.where(cond, self.action[-1], results["action"]) 
+        results["update"] = datetime.today().strftime(self.format)
+        results["username"] = self.user
+        
+        # Booking and previous cohorts
+        self.book_cohort_ = max(results["asof"])
+        self.prev_cohort_ = self.__previous__(self.book_cohort_,-1)
+        self.cohorts_ = [self.book_cohort_, self.prev_cohort_]
+        
+        return results
+        
+    def __previous__(self, cohort, lag=0):
+        
+        '''Get cohort given lag'''
+        cohort = np.datetime64(cohort,'M')
+        cohort = cohort + np.timedelta64(int(lag),'M')
+        cohort = date.fromisoformat(f'{cohort}-01') 
+        return cohort.strftime("%Y-%m")
+    
+    def add_pattern(self, results, patterns):
+        
+        '''
+        Add new "action" pattern to the monitoring list. The pattern is 
+        cancelled when it falls under conditions as follows:
+            - patterns["asof"].shift(1) in [<current>, <previous>], and
+            - patterns["query"].shift(1) == patterns["query"], and
+            - patterns["status"].shift(1) in [<monitor>, <cancelled>]
+        
+        Parameters
+        ----------
+        results : pd.DataFrame
+            New patterns from `define_action`.
+        
+        patterns : pandas DataFrame
+            A current monitoring list of patterns.
+            
+        Returns
+        -------
+        new_patterns : pd.DataFrame
+            Updated monitoring list with new patterns added (if any).
+        
+        '''
+        self.__dataframe__(results , "results" )
+        self.__dataframe__(patterns, "patterns")
+        new_patterns = patterns.copy()
+        cond = results["action"]==self.action[0]
+        
+        if sum(cond)>0:
+            
+            # New patterns (action-required)
+            new_patterns = results.loc[cond].copy()
+            new_patterns["status"] = self.status[0]
+            new_patterns["period"] = 0
+
+            # Concatenate with exising files
+            objs = (patterns, new_patterns)
+            new_patterns = pd.concat(objs, ignore_index=True)
+            new_patterns.sort_values(["query","asof"], inplace=True)
+
+            # Cancel pattern
+            cond0 = new_patterns["asof"].shift(1).isin(self.cohorts_)
+            cond1 = new_patterns["query"].shift(1)==new_patterns["query"]
+            cond2 = new_patterns["status"].shift(1).isin(self.status[:2])
+            new_patterns.loc[cond0 & cond1 & cond2, "status"] = self.status[1]
+        
+        return new_patterns
+    
+    def get_query(self, patterns, cohort=None):
+        
+        '''
+        Extracts query, whose status is not "(2) cancelled", and has
+        existed before defined `cohort`.
+        
+        Parameters
+        ----------
+        patterns : pandas DataFrame
+            A current monitoring list of patterns.
+            
+        cohort : str, default=None
+            A date in year-month format ("YYYY-MM") e.g. "2024-01". If 
+            None, it defaults to `prev_cohort_`.
+            
+        Returns
+        -------
+        queries : dict
+            A dict with "<name>_<pattern>" as keys and queries as values.
+        
+        '''
+        self.__dataframe__(patterns, "patterns")
+            
+        # Conditions
+        if cohort is None: cohort = self.prev_cohort_
+        cond  = patterns["status"]!=self.status[1] 
+        cond &= patterns["asof"]<=cohort
+        
+        # Determine query with "(1) monitor" status
+        queries = patterns.loc[cond].groupby(["pattern"])\
+        .agg({"status":"max", "query":"max"}).reset_index()
+        queries = queries.loc[queries["status"]==self.status[0]]
+        queries = queries[["pattern", "query"]].values
+        queries = dict([(f"Rule_9999_{p}", q) for p,q in queries])
+        if len(queries)==0: warnings.warn('No query found.')
+        
+        return queries
+    
+    def add_status(self, estimator, patterns):
+        
+        '''
+        Add new status from `estimator` to patterns, whose status is 
+        "(1) monitor". The status is closed or "(3) closed" when pattern's
+        indicators are below thresholds, otherwise remains unchanged.
+        
+        Parameters
+        ----------
+        estimator : RiskPattern.Monitoring instance
+            An instance must be fitted.
+        
+        patterns : pandas DataFrame
+            A current monitoring list of patterns.
+            
+        Returns
+        -------
+        new_status : pd.DataFrame
+            Updated monitoring list with new status added (if any).
+            
+        '''
+        self.__estimator__(estimator)
+        new_status = pd.DataFrame(estimator.results_)
+            
+        # Default values
+        cond = new_status["name"].isin(["Rule_all", "Rule_0"])
+        new_status = new_status.loc[cond==False].reset_index(drop=True)
+        new_status["action"] = self.action[0]
+        new_status["update"] = datetime.today().strftime(self.format)
+        new_status["username"] = self.user
+        
+        # Extract "pattern"
+        f0 = lambda x: re.findall("P[0-9]+", x)[-1]
+        new_status["pattern"] = new_status["pattern"].apply(lambda x:f0(x))
+        new_status["name"] = "MONITOR"
+                   
+        # Get latest status and period
+        aggfnc = {"status":"max", "period":"max"}
+        status = patterns.groupby("pattern").agg(aggfnc).reset_index()
+        status["period"] = status["period"] + 1
+        status["status"] = self.status[0]
+
+        # Status ==> "(3) closed"
+        new_status = new_status.merge(status, how="left", on="pattern")
+        cond = new_status[self.ratio3]<=1
+        new_status.loc[cond, "status"] = self.status[-1]
+        new_status = pd.concat((patterns, new_status), ignore_index=True)
+
+        return new_status
+
+def get_cohort(cohort, month=0):
+    
+    '''
+    Calculate cohort given lag
+
+    Parameters
+    ----------
+    cohort : str
+        A date with "YYYY-MM" format
+
+    month : int, default=0
+        Number of months to be added to `cohort`.
+    '''
+    cohort = np.datetime64(cohort,'M')
+    cohort = cohort + np.timedelta64(int(month),'M')
+    cohort = date.fromisoformat(f'{cohort}-01') 
+    return cohort.strftime("%Y-%m")
+
+def create_folder(*paths, remove=True):
+
+        '''
+        Create new folder.
+
+        Parameters
+        ----------
+        *paths : tuple of str
+            All members of paths.
+
+        remove : bool, default=True
+            If True, it will remove all files and subfolders under this 
+            path. This is only relevant when path already exists.
+
+        Returns
+        -------
+        path : str
+
+        '''
+        path = os.path.join(*paths)
+        if os.path.exists(path)==False: 
+            os.makedirs(path)
+            msg = 'New directory <{}> is successfully created.'
+            print(msg.format(path))
+        elif remove:
+            for file in os.listdir(path): 
+                try: os.remove(os.path.join(path, file))
+                except: os.rmdir(os.path.join(path, file)) 
+            msg = '<{}> already exists. All files and folders have been deleted.'
+            warnings.warn(msg.format(path))
+        else:  warnings.warn(f"<{path}> already exists.")
+        return path
+
+class ConfigParser(ValidateParams):
+    
+    '''
+    Configurations
+    
+    Parameters
+    ----------
+    mature_lag : int, default=0
+        Time Lag in months between booking and mature month.
+    
+    product : str, default=None
+        Type of product e.g. "CC", "KCL", "XPC". 
+
+    observed_mths : int, default=None
+        Number of months to be observed before mature cohort.
+    
+    mapping : dict, default=None
+        Map new value under `okr_type` column in `cascaded_okr.csv`
+        e.g. {"old_value" : "new_value"}. 
+    
+    laggings : list of (str, int), default=None
+        Time Lag in months for all indicators e.g. (indicator, lag). 
+        This is used to replace any premature indicators with NaN. 
+
+    prim_keys : list of str, default=None
+        Primary keys for any newly created data e.g. ["apl_grp_no", 
+        "ip_id", "product_tp", "cohort_fr"].
+    
+    categories : list of str, default=None
+        Categorical features that will be used to compute pattern(s)
+    
+    frac : float, default=0.05
+        The minimum percent of samples required to be at a leaf node.
+    
+    n_samples : int, default=500
+        The minimum number of samples required to be at a leaf node.
+    
+    main_folder : str, default=None 
+        Path of main folder where all sub-folders and files are created. 
+        if path contains "<USER>" e.g. "D:\\Users\\<USER>\\**\\TEST", 
+        it will be replaced with log-in user name.
+    
+    data_path : str, default=None
+        Path of data. if path contains "<USER>", it will be replaced 
+        with log-in user name.
+    
+    '''
+    
+    def __init__(self, mature_lag=0, product=None, observed_mths=18, 
+                 mapping=None, laggings=None, prim_keys=None, 
+                 categories=None, frac=0.05, n_samples=500, 
+                 main_folder=None, data_path=None):
+        
+        self.create_date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        args = ("mature_lag", mature_lag, int, None, None, "neither")
+        self.mature_lag = self.Interval(*args)
+        self.product = str(product)
+        self.mapping = mapping
+        self.laggings = laggings
+        self.prim_keys = prim_keys
+        self.categories = categories
+        args = ("frac", frac, float, 0, 1, "right")
+        self.frac = self.Interval(*args)
+        args = ("n_samples", n_samples, int, 100, None, "left")
+        self.n_samples = self.Interval(*args)
+        self.main_folder = main_folder
+        self.data_path = data_path
+        self.data_folder = os.path.split(data_path)[0]
+        args = ("observed_mths", observed_mths, int, 10, None, "left")
+        self.observed_mths = self.Interval(*args)
+        self.observed_mths = np.fmax(self.observed_mths, 
+                                     self.laggings[2][1])
+        self.msgs = ["This directory does not exist <{}>.".format, 
+                     "There are {:,d} possible paths. "\
+                     "Please be more specific.".format]
+        
+    def update(self, cohort=None):
+        
+        '''
+        Update configuarions
+        
+        Parameters
+        ----------
+        cohort : str, default=None
+            A date with "YYYY-MM" format. If None, cohort-related 
+            parameters will not be created or updated.
+            
+        '''
+        
+        user = os.environ.get('USERNAME')
+        for attr in ["main_folder", "data_folder", "data_path"]:
+            path = getattr(self, attr).replace("<USER>",user)
+            found = glob.glob(path, recursive=True)
+            if len(found)==0: raise ValueError(self.msgs[0](path))
+            elif len(found)>1: raise ValueError(self.msgs[1](len(found)))
+            else: setattr(self, attr, found[0])
+          
+        # Update other parameters
+        if cohort is not None:
+            self.okr_path, self.quarter = self.__okr__(cohort)
+            self.mature_indic1 = self.__cohort__(cohort, self.mature_lag)
+            self.mature_indic2 = self.__cohort__(self.mature_indic1, -self.laggings[1][1])
+            self.mature_indic3 = self.__cohort__(self.mature_indic1, -self.laggings[2][1])
+            self.start_cohort  = self.__cohort__(self.mature_indic1, -self.observed_mths)
+
+            # Excel and text file
+            a  = [self.product] + cohort.split("-") 
+            a += self.mature_indic1.split("-")
+            self.xls_file = "RESULT_{}{}{}M{}{}.xlsx".format(*a)
+            self.txt_file = "ACTION_{}{}{}M{}{}.txt".format(*a)
+
+    def __okr__(self, cohort):
+    
+        '''OKR file path and quarter'''
+        # Find okr_20**.csv from designated directory
+        cohort = int(cohort.replace("-",""))
+        asof = []
+        for f in os.listdir(self.data_folder):
+            if len(re.findall("^okr_[0-9]{4}",f)):
+                asof += [int(re.findall("[0-9]{4}",f)[0])]
+
+        # Convert to YYYYMM by quarter
+        asof = product(np.array(asof)*100, np.arange(3,13,3))
+        asof = np.array([sum(c) for c in asof])
+        asof = str(asof[cohort<=asof][0])
+
+        # Create file path
+        f = "okr_{}.csv".format(int(asof[:4]))
+        q = "q{:.0f}".format(np.ceil(int(asof[-2:])/3))
+        return os.path.join(self.data_folder, f), q
+        
+    def __cohort__(self, cohort, month=0):
+    
+        '''Calculate cohort given month'''
+        cohort = np.datetime64(cohort,'M')
+        cohort = cohort + np.timedelta64(int(month),'M')
+        cohort = date.fromisoformat(f'{cohort}-01') 
+        return cohort.strftime("%Y-%m")
