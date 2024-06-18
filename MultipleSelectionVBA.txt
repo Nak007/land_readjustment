@@ -1,7 +1,30 @@
 Option Explicit
-Const UseCols As String = "F"
-Const UseBullet As Boolean = True
-Const delimiter As String = ", "
+
+' Names (configurations)
+Public UseCols As String
+Public UseBullet As Boolean
+Public delimiter As String
+Const ClearStr As String = "< Clear >"
+Const RemoveStr As String = "< Remove >"
+
+Private Sub GetConst()
+    
+    ' Define constants
+    UseCols = CStr(GetNameValue("usecols", "F"))
+    UseBullet = CBool(GetNameValue("usebullet", True))
+    delimiter = CStr(GetNameValue("delimiter", ", "))
+
+End Sub
+
+Private Function GetNameValue(ref As String, Optional default As Variant = "") As String
+    
+    GetNameValue = default
+    If HasName(ref) Then
+        GetNameValue = ThisWorkbook.Names(ref).value
+        GetNameValue = Replace(Replace(GetNameValue, """", ""), "=", "")
+    End If
+
+End Function
 
 Private Sub Worksheet_Change(ByVal Target As Range)
     
@@ -10,6 +33,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
     Dim xltype As XlDVType
     Dim bullet As String
     Dim Cond(1 To 5) As Boolean
+    Call GetConst
      
     With Target
         
@@ -26,8 +50,8 @@ Private Sub Worksheet_Change(ByVal Target As Range)
             
             ' Conditions
             If UseBullet Then bullet = NumBullets(OldValue)
-            If NewValue = "< Clear >" Then Cond(1) = True
-            If NewValue = "< Remove >" Then Cond(2) = True
+            If NewValue = ClearStr Then Cond(1) = True
+            If NewValue = RemoveStr Then Cond(2) = True
             If NewValue <> "" Then Cond(3) = True
             If Len(OldValue) > 0 Then Cond(4) = True
             If InStr(1, OldValue, NewValue) = 0 Then Cond(5) = True
@@ -100,6 +124,6 @@ Private Function HasName(ref0 As String) As Boolean
         If ref0 = ref1.Name Then
             HasName = True: Exit Function
         End If
-    Next nm
+    Next ref1
 
 End Function
