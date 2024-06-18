@@ -1,0 +1,105 @@
+Option Explicit
+Const UseCols As String = "F"
+Const UseBullet As Boolean = True
+Const delimiter As String = ", "
+
+Private Sub Worksheet_Change(ByVal Target As Range)
+    
+    Dim OldValue As String
+    Dim NewValue As String
+    Dim xltype As XlDVType
+    Dim bullet As String
+    Dim Cond(1 To 5) As Boolean
+     
+    With Target
+        
+        If .Count > 1 Then Exit Sub
+        If MatchColumn(Target) = False Then Exit Sub
+        NewValue = .value
+        On Error GoTo ExitSub
+        xltype = .Validation.Type
+        
+        If xltype = xlValidateList Then
+            Application.EnableEvents = False
+            Application.Undo
+            OldValue = .value
+            
+            ' Conditions
+            If UseBullet Then bullet = NumBullets(OldValue)
+            If NewValue = "< Clear >" Then Cond(1) = True
+            If NewValue = "< Remove >" Then Cond(2) = True
+            If NewValue <> "" Then Cond(3) = True
+            If Len(OldValue) > 0 Then Cond(4) = True
+            If InStr(1, OldValue, NewValue) = 0 Then Cond(5) = True
+          
+            ' Replace new value in cell
+            If Cond(1) Then
+                .ClearContents
+            ElseIf Cond(2) Then
+                .value = RemoveLast(OldValue)
+            ElseIf Cond(5) = False Then
+                .value = OldValue
+            ElseIf Cond(3) And Cond(4) And Cond(5) Then
+                .value = OldValue & delimiter & bullet & NewValue
+            Else: .value = bullet & NewValue
+            End If
+          
+        End If
+        
+    End With
+
+ExitSub: Application.EnableEvents = True
+
+End Sub
+
+Private Function NumBullets(value As String) As String
+    
+    ' Number bullets
+    Dim words As Variant
+    words = Split(value, delimiter)
+    NumBullets = Trim(Str(UBound(words) + 2))
+    NumBullets = Replace("(n) ", "n", NumBullets)
+
+End Function
+
+Private Function RemoveLast(value As String) As String
+
+    ' Remove last entry
+    Dim words As Variant, n As Integer
+    words = Split(value, delimiter)
+    n = UBound(words)
+    If n = 0 Then RemoveLast = ""
+    RemoveLast = words(0)
+    For n = LBound(words) + 1 To UBound(words) - 1
+        RemoveLast = RemoveLast & delimiter & words(n)
+    Next n
+    
+End Function
+
+Private Function MatchColumn(cell As Range) As Boolean
+    
+    ' Matching cell's column
+    Dim columns As Variant
+    Dim col(0 To 1) As Variant
+    
+    MatchColumn = False
+    col(0) = Split(cell.AddressLocal, "$")(1)
+    For Each col(1) In Split(UseCols, ",")
+        If col(0) = col(1) Then
+            MatchColumn = True: Exit Function
+        End If
+    Next col(1)
+    
+End Function
+
+Private Function HasName(ref0 As String) As Boolean
+    
+    ' Match referenced range by name
+    Dim ref1 As Name
+    For Each ref1 In ThisWorkbook.Names
+        If ref0 = ref1.Name Then
+            HasName = True: Exit Function
+        End If
+    Next nm
+
+End Function
