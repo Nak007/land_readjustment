@@ -254,7 +254,8 @@ class UnionJointSet(ValidateParams):
         
         # Choose the unique items that occur more frequently than the 
         # specified threshold.
-        item_list = np.r_[[list(n) for n in valid_items]].ravel()
+        item_list = list()
+        for n in valid_items: item_list.extend(list(n))
         unqs,cnts = np.unique(item_list, return_counts=True)
         unq_items = unqs[np.argsort(cnts)][::-1]
         cnt_items = cnts[np.argsort(cnts)][::-1]
