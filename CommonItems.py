@@ -8,10 +8,12 @@ versionadded:: 31-01-2025
 ''' 
 import pandas as pd, numpy as np, os, re, time
 from warnings import warn
-import collections
+from itertools import product, combinations, chain
+from collections import namedtuple
+from pyvis.network import Network
 try: import progressbar
 except: 
-    !pip install progressbar
+    get_ipython().system('pip install progressbar')
 
 __all__ = ['UnionJointSet']
 
@@ -131,7 +133,43 @@ class ValidateParams:
             raise ValueError(f"`{param0[0]}` ({param0[1]}) must be less"
                              f" than `{param1[0]}` ({param1[1]}).")
 
-class UnionJointSet(ValidateParams):
+class ColorGradient():
+
+    def __hex2RGB__(self, hex_str):
+
+        '''
+        Convert hex to RGB e.g. #FFFFFF to [255,255,255]
+        '''
+        # Pass 16 to the integer function for change of base
+        return [int(hex_str[i:i+2], 16) for i in range(1,6,2)]
+
+    def __gradient__(self, hex1, hex2, n=2):
+
+        '''
+        Given two hex colors, returns a color gradient with n colors.
+
+        Parameters
+        ----------
+        hex1, hex2 : hex color
+            Hex colors
+        
+        n : int, default=2
+            Number of colors between 2 hex colors.
+
+        Returns
+        -------
+        hex_colors : list of hex colors
+        
+        '''
+        self.Interval("n", n, int, 1, None, "right")
+        rgb1 = np.array(self.__hex2RGB__(hex1))/255
+        rgb2 = np.array(self.__hex2RGB__(hex2))/255
+        rgb_colors = [((1-mix)*rgb1 + (mix*rgb2)) 
+                      for mix in [x/(n-1) for x in range(n)]]
+        return ["#" + "".join([format(int(round(val*255)), "02x") 
+                               for val in item]) for item in rgb_colors]
+
+class UnionJointSet(ValidateParams, ColorGradient):
 
     '''
     Sets are merged when a "Joint" set is identified, where one or 
@@ -150,6 +188,11 @@ class UnionJointSet(ValidateParams):
            from `selected_items` to minimize time complexity.
         4. This process continues until there is no item left in
            `selected_items`.
+    
+    When the degree of centrality is calculated, it assumes 
+    interconnection among all nodes within each set. However, the 
+    actual connections can be better represented by dividing the items 
+    into smaller sets, ideally pairs of two items.
         
     Parameters
     ----------
@@ -161,19 +204,42 @@ class UnionJointSet(ValidateParams):
 
     Attributes
     ----------
-    items_ : dict
-        In each iteration, the newly formed set that contains more items 
-        than defined thresholds will be stored in `self.items_`. For 
-        example, it may look like this: {0: {1,2,3}, 1: {4,5}, ...}.
+    items_ : dict of collections.namedtuple 
+        In each iteration, any newly formed set containing more items 
+        than the defined thresholds will be stored in `self.items_`, 
+        using indices as keys and a namedtuple ("Network") as values, 
+        with the following fields:
+    
+        Field       Description
+        -----       -----------
+        n_nodes     Number of nodes 
+        members     List of members
+        n_edges     Number of edges for each member (links) 
+        centrality  Degree of Centrality for each member, with values 
+                    ranging from 0 to 1.
+        edge_index  Indices of edges that connect to the members. This 
+                    can be utilized with `self.edges_`.
 
     n_jointsets_ : int
         The number of joint sets found.
-        
+
+    results_ : dict of numpy ndarrays
+        A dict with keys as column headers and values as columns, that 
+        can be imported into a pandas DataFrame. The data is identical
+        to that contained in `self.items_`.
+
     References
     ----------
     [1] https://github.com/niltonvolpato/python-progressbar
         
     '''
+
+    fields = ['network', 'members', 'n_edges', 'centrality']
+    pyvis_kwargs = dict(notebook=True, cdn_resources="remote",
+                        bgcolor='white', font_color="white",
+                        height="500px", width="100%")
+    label = "Network: {} \n ID: {} \n Edges: {:,.0f} \n Centrality: {:.3g}".format
+    
     def __init__(self, min_cnt=1, min_items=3):
 
         # Validate parameters
@@ -190,16 +256,30 @@ class UnionJointSet(ValidateParams):
         Parameters
         ----------
         items : list of sets, of shape (n_sets,)
-            A list of sets e.g. [{1, 2}, {5, 8, 9}, ...].
+            A list of sets e.g. [{1, 2}, {5, 8, 9}, ...]. When the degree 
+            of centrality is calculated, it assumes interconnection among 
+            all nodes within each set. However, the actual connections 
+            can be better represented by dividing the items into smaller 
+            sets, ideally pairs of two items.
          
         Returns
         -------
         self
+        
         '''
         # Initialize parameters
         valid_items, selected_items = self.__checkitems__(items)
         n_items = len(selected_items)
         self.items_ =dict()
+
+        # All edges among nodes
+        self.edges_ = np.unique([set(n) for item in valid_items 
+                                 for n in combinations(item,2)])
+        self.n_edges = len(self.edges_)
+
+        # All nodes and their centrality degrees. 
+        a = [n for nodes in self.edges_ for n in nodes]
+        self.nodes_, self.n_edges_ = np.unique(a, return_counts=True)
 
         # Initialize progressbar
         widgets = [progressbar.Timer(), ',', progressbar.Percentage(), ' ', 
@@ -220,14 +300,48 @@ class UnionJointSet(ValidateParams):
 
             # Select set that contains more than define threshold
             if len(new_item) > self.min_items: 
-                self.items_[len(self.items_)] = new_item
-            
+                node_index = np.isin(self.nodes_, list(new_item))
+                edge_index = [edge.isdisjoint(new_item)==False 
+                              for edge in self.edges_]
+                values = {"n_nodes" : (n_nodes:=len(new_item)),
+                          "members" : self.nodes_[node_index],
+                          "n_edges" : (n_edges:=self.n_edges_[node_index]),
+                          "centrality" : n_edges/(n_nodes-1),
+                          "edge_index" : np.arange(self.n_edges)[edge_index]}
+                values = namedtuple("Network", values.keys())(**values)
+                self.items_[len(self.items_)] = values
+
             if len(selected_items)==0: break
             bar.update(n_items-len(selected_items))
             
         bar.finish()
         self.n_jointsets_ = len(self.items_.keys())
+        self.__todict__()
+        
         return self
+
+    def __todict__(self):
+
+        '''
+        Private Function: Convert `self.items_` into dict.
+
+        Attributes
+        ----------
+        results_ : dict of numpy ndarrays
+            A dict with keys as column headers and values as columns, that 
+            can be imported into a pandas DataFrame. The data is identical
+            to that contained in `self.items_`.
+
+        '''
+        if getattr(self,"items_",None) is None:
+            raise ValueError("This instance is not fitted yet. Call 'fit' with"
+                             "appropriate arguments before using this estimator.")
+        
+        self.results_ = dict([(c,[]) for c in self.fields])
+        for key in self.items_.keys():
+            self.results_["network"].extend([key]*self.items_[key].n_nodes)
+            for fld in self.fields:
+                self.results_[fld].extend(getattr(self.items_[key],fld,[]))
 
     def __checkitems__(self, items):
         
@@ -339,3 +453,93 @@ class UnionJointSet(ValidateParams):
                 test = test[np.arange(len(test))!=n]
                 return item.union(t), test.tolist(), True
         return item, test_items, False
+
+    def networkdata(self, network=0):
+
+        '''
+        Transformed data.
+        
+        Parameters
+        ----------
+        network : int, default=0
+            Index of network from `self.items_`.
+
+        Returns
+        -------
+        Data : dict of collections.namedtuple 
+            A transformed data ready for processing in `pyvis.network`, 
+            stored in a namedtuple called 'Data' with the following fields:
+         
+            Field       Description
+            -----       -----------
+            nodes       The ids of the node. The id is mandatory for nodes 
+                        and they have to be unique.
+            edges       List of all edges.
+            title       Title to be displayed for each node.
+            color       List of colors for each node.
+
+        '''
+        if getattr(self,"items_",None) is None:
+            raise ValueError("This instance is not fitted yet. Call "
+                             "'fit' with appropriate arguments before "
+                             "using this estimator.")
+        else: self.Interval("network", network, int, 
+                            0, self.n_jointsets_-1, "both")
+            
+        # Initialize parameters
+        items = self.items_[network]
+
+        # list of titles
+        data = zip([network]*items.n_nodes, items.members, 
+                   items.n_edges, items.centrality)
+        title = [self.label(*a) for a in data]
+
+        # List of colors
+        unique = np.unique(items.centrality)
+        args = ('#ecf0f1', '#FC427B', len(unique))
+        color_dict = dict(zip(unique, self.__gradient__(*args)))
+        color = [color_dict[n] for n in items.centrality]
+
+        # Reassign number to all nodes and edges
+        all_edges = self.edges_[items.edge_index]
+        allids = np.unique([list(e) for e in all_edges])
+        id2int = dict([(id,n) for n,id in enumerate(allids)])
+        edges = [[id2int[n] for n in edge] for edge in all_edges]
+        nodes = list(id2int.values())
+
+        # Store in "Data"
+        values = {"nodes" : nodes, "edges" : edges,
+                  "title" : title, "color" : color, 
+                  "size" : [15]*len(nodes)}
+        return namedtuple("Data", values.keys())(**values)
+        
+    def visualize(self, network=0):
+
+        '''
+        Visualize network graph.
+        
+        Parameters
+        ----------
+        network : int, default=0
+            Index of network from `self.items_`.
+
+        Returns
+        -------
+        network : pyvis.network.Network
+            Generate a static HTML file named 'NETWORK_000.html' and save 
+            it locally before opening it.
+            
+        '''
+        # Plot network graph
+        data = self.networkdata(network)
+        net = Network(**self.pyvis_kwargs)
+        net.add_nodes(data.nodes, title=data.title, 
+                      size=data.size, color=data.color)
+        net.add_edges(data.edges)
+        net.inherit_edge_colors(False)
+
+        # File name
+        k = int(np.ceil(np.log10(self.n_jointsets_)))
+        name = f"NETWORK_{str(network).zfill(k)}.html"
+        
+        return net.show(name)
