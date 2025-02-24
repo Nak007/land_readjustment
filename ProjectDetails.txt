@@ -1,0 +1,638 @@
+ 
+Project code: P01
+
+Name : Smart Credit Policy Hub (UW.)
+
+Detail : ใช้ประโยชน์จาก AI ในการเข้าถึงและประมวล ข้อมูล นโยบายเครดิต การสื่อความ และ ประกาศ Product ต่างๆ ที่อยู่ใน Sharepoint ของธนาคาร เพื่อช่วยเพิ่มประสิทธิภาพในการทำงาน โดย ลดปัญหาในการสืบค้นข้อมูล การตีความเนื้อหา 
+
+Problem : search engine ของ Microsoft มีข้อจำกัดในการสืบค้นข้อมุลที่เก็บอยู่ใน SharePoint ของธนาคาร ซึ่งมีการเก็บอยู่ตามแต่ละหน่วยงาน และ หลากหลาย ดังนั้น ในการใช้งานจึงมักจะอิงจากประสบการณ์ของผู้ที่ทำอยู่เป็นประจำ ว่าอยู่หมวดใหน ตรงใหน Link ใหน หัวข้อย่อยใหน จนทำให้ต้องมีการสรุปเก็บข้อมูลที่แต่ละส่วนใช้เก็บไว้ในพื้นที่ตัวเอง อีกทั้งในบางครั้งต้องมีการเชื่อมโยงกับหมวดอื่นหมู่อื่น ซึ่งจะมีลักษณะคล้ายกับการอ่านกม. ที่ต้องเปิดทั้ง มาตรา และ คำพิพากษาศาลฏีกา ประกอบไปด้วยกัน ซึ่งเป็น Pain สำหรับหน่วยงานต่างๆที่ไม่คุ้นเคย หรือ สำหรับพนักงานที่ยังมีประสบการณ์ไม่มากในการทำความเข้าใจและปฏิบัติให้ได้ตามที่ธนาคารได้กำหนดแนวทางไว้
+
+Solution : AI จะมีส่วนช่วยในการเข้าถึงข้อมูลซึ่งถูกเก็บไว้ใน SharePoint แล้วใช้ความสามารถด้าน LLM ในการประมวลเพื่อหาคำตอบที่ต้องการ
+
+Outcome : เพิ่มประสิทธิภาพและความถูกต้องในการเข้าถึงข้อมูลซึ่งแต่ละหัวข้อหรือแต่ละเรื่อง สามารถลดเวลาลงได้อย่างน้อย 10 นาทีต่อหนึ่งหัวข้อ ซึ่งวันหนึ่งๆสามารถลดเวลาลงได้ 30นาที ซึ่งภายใต้เวลาที่จำกัดสามารถเอาเวลาที่ประหยัดได้ไปวิเคราะห์เนื้อหาอื่นๆที่มีความซับซ้อนมากขึ้นได้
+
+==================================================================================================== 
+Project code: P02
+
+Name : AI-Assisted AML Alert Management (CO.)
+
+Detail : ปัจจุบัน การแจ้งเตือนเกี่ยวกับการป้องกันการฟอกเงิน (AML) เพิ่มขึ้นอย่างมาก เนื่องจากการใช้บัญชี Nominee Accounts ในกิจกรรมที่ผิดกฎหมายที่เพิ่มขึ้น ซึ่งส่งผลให้เกิดปริมาณงานที่มากเกินกว่าที่ผู้ตรวจสอบจะจัดการได้ ดังนั้น โครงการนี้จึงมีเป้าหมายที่จะใช้ประโยชน์จาก AI และ RPA เพื่อจัดการกับจำนวนการแจ้งเตือนการฟอกเงินที่เพิ่มขึ้นอย่างมีประสิทธิภาพ และสนับสนุนการจัดการการแจ้งเตือนอย่างมีประสิทธิผล
+
+Problem : ปริมาณงานคาดว่าจะเพิ่มขึ้นจนไม่สามารถจัดการได้ เนื่องจากการเพิ่มขึ้นของบัญชี Nominee Accounts ซึ่งส่งผลให้จำนวนการแจ้งเตือนเพิ่มขึ้นอย่างมาก
+
+
+Solution : ใช้ Machine Learning ในการจัดประเภทการแจ้งเตือนตามระดับความรุนแรง โดยวิเคราะห์ข้อมูลจากโปรไฟล์ ธุรกรรม และกฎเกณฑ์ต่างๆ และใช้ RPA ในการสร้าง report โดยอัตโนมัติ
+
+Outcome : Target to reduce 23% of investigators' workload.
+
+==================================================================================================== 
+Project code: P03
+
+Name : Productivity & Portfolio Diversification (CM.)
+
+Detail : ใช้ AI เพื่อเพิ่มผลการติดตามพอร์ตให้รวดเร็วมากขึ้น และการวิเคราะห์กระจายความเสี่ยงของพอร์ต (Portfolio Diversification Analysis) 
+
+Problem : ธนาคารมีข้อมูลจำนวนมากและกระจัดกระจายจากหลายแหล่ง ทำให้การวิเคราะห์หลายมิติและการสร้าง dashboard visual ใช้เวลานาน จนไม่สามารถตอบคำถามจากผู้บริหารได้อย่างรวดเร็ว และยังไม่สามารถแยกความเสี่ยงของลูกค้าคุณภาพดีและไม่ดีได้อย่างชัดเจน.
+
+
+Solution : การใช้ AI ในการวิเคราะห์และจำแนกลูกค้าที่มีคุณภาพดีและไม่ดีจากข้อมูลย้อนหลัง พร้อมทั้งแนะนำแนวทางนโยบายคุณภาพลูกค้าเพื่ออนุมัติคุณภาพลูกค้า ช่วยลดระยะเวลาในการวิเคราะห์และการสร้าง dashboard รวมถึงสรุปข้อมูลสำคัญให้รวดเร็วและมีประสิทธิภาพมากขึ้น
+
+Outcome : การใช้ AI ในการวิเคราะห์และจำแนกลูกค้าที่มีคุณภาพดีและไม่ดีจากข้อมูลย้อนหลังช่วยให้สามารถประเมินคุณภาพลูกค้าได้อย่างแม่นยำและรวดเร็ว โดย AI สามารถแนะนำแนวทางนโยบายคุณภาพลูกค้าเพื่อการอนุมัติได้อย่างมีประสิทธิภาพ นอกจากนี้ยังช่วยลดระยะเวลาในการวิเคราะห์ข้อมูลและลดเวลาที่ใช้ในการสร้าง dashboard พร้อมทั้งสามารถสรุปข้อมูลสำคัญได้อย่างรวดเร็ว ทำให้การตัดสินใจในธุรกิจมีความทันสมัยและมีประสิทธิภาพมากขึ้น
+
+==================================================================================================== 
+Project code: P04
+
+Name : Kxception (OR.)
+
+Detail : พัฒนา AI ให้เป็น Partner คอยให้คำปรึกษาและเเนะนำเเนวทางที่คาดว่าจะทำให้ได้รับการอนุมัติ เมื่อเวลา User ต้องการขอ Exception กระบวนการต่างๆขอธนาคาร โดยเมื่อหารือจน AI เห็นว่าน่าจะได้รับการอนุมัติ AI จะ Auto เปิด Memo Workflow เพื่อขออนุมัติให้กับ User ตามลำดับขั้น
+
+และ AI จะต้องสามารถทำสรุป Report การขอ Exception ตลอดจนพยากรณ์แนวโน้มการขอ Exception รวมทั้งให้ข้อเสนอเเนะต่างๆ ที่จะเป็นประโยชน์สำหรับการวิเคราะห์ข้อมูลและปรับปรุงกระบวนการ
+
+Problem : เนื่องจากในช่วง 2-3 ปีที่ผ่านมา ธนาคารมีปริมาณ Case Exception เพิ่มสูงขึ้นอย่างต่อเนื่อง รวมทั้ง กระบวนการทดแทนที่นำมาเสนอขออนุมัติก็มีความหลากหลาย ไม่เป็นมาตรฐานตามคู่มือปฏิบัติงาน ทำให้ฝ่ายงานที่เกี่ยวข้อง ต้องมาพิจารณารายละเอียดเคสโดยละเอียด ซึ่งเป็นการเสียเวลา และ เพิ่มระยะเวลาในการพิจารณาสูงขึ้น ส่งผลให้ลูกค้าที่มาติดต่อขอ Exception มีแนวโน้มที่จะร้องเรียนทางการเพิ่มมากขึ้น
+
+Solution : ช่วยใน 3 ส่วน คือ
+
+1. ช่วยให้คำปรึกษาและแนะนำแนวทางที่คาดว่าจะช่วยให้การขออนุมัติ Exception มีโอกาสได้รับการอนุมัติมากขึ้น โดยการประมวลผลข้อมูลและพิจารณากระบวนการที่เกี่ยวข้องในธนาคาร
+2. ช่วยลดเวลาการเปิด Memo Workflow เพื่อให้การขออนุมัติ Exception เป็นไปอย่างรวดเร็วและมีความแม่นยำสูง โดย AI จะช่วยในการตัดสินใจและเปิดการดำเนินการอัตโนมัติเมื่อเห็นว่าอนุมัติได้
+3. ช่วยจัดทำสรุปและพยากรณ์แนวโน้มการขอ Exception เพื่อการวิเคราะห์และปรับปรุงกระบวนการในอนาคต ตลอดจนแนะนำกระบวนการ Exception ที่ควรยกระดับให้เป็นกระบวนการมาตรฐานของธนาคาร
+
+Outcome : ตัวชี้วัด วัดได้จากหลายมิติ เช่น
+
+- SLA ที่ลดลงการขออนุมัติ
+- ลดชั่วโมงการทำงานและจำนวนบุคลากรที่ต้องใช้ในการหารือกระบวนการ Exception (ลด Man day โดยรวม)
+- จำนวนเคสที่ลดลงในการขอหารือหรือส่งขออนุมัติ
+- จำนวนกระบวนการมาตรฐานที่ยอมรับได้ มีเพิ่มสูงขึ้น
+
+==================================================================================================== 
+Project code: P05
+
+Name : PonyKix (OR.)
+
+Detail : พัฒนาโมเดล AI สำหรับช่วย Detect พฤติกรรมหรือคุณลักษณะของลูกค้าที่คาดว่าจะเป็นบัญชีม้า โดยฝึกสอน AI ด้วยข้อมูลลูกค้าที่เป็นบัญชีม้าที่ธนาคารได้รับแจ้งจากหน่วยงานทางการ (HR03, CFR) แล้วว่าเป็นบัญชีม้า โดยใช้เทคนิคของ Machine Learning และ Deep Learning ในการเรียนรู้จากข้อมูลที่มีอยู่และหาความสัมพันธ์ระหว่างตัวแปรต่างๆ ของข้อมูลลูกค้า ตลอดจนทดสอบและปรับปรุงโมเดลให้มีความแม่นยำเพียงพอสำหรับให้ฝ่ายงานที่เกี่ยวข้องใช้ในการชี้เป้าสำหรับการตรวจสอบรายการ
+
+Problem : จากปริมาณ Nominee Account ที่เพิ่มสูงขึ้นอย่างต่อเนื่อง ธนาคารต้องแบกรับ Operation Cost ในการปิดบัญชีตามคำสั่งจากหน่วยงานทางการ (HR03, CFR) และต้องใช้เวลาทรัพยากรในการดำเนินการที่ไม่เกิดประโยชน์กับธนาคาร ดังนั้น โครงการนี้จึงมีเป้าหมายในการพัฒนา AI เพื่อช่วย ตรวจจับ Nominee Account โดยอัตโนมัติ เพื่อลดภาระงานที่เกิดจากคำสั่งดังกล่าว ซึ่งจะช่วยลดการใช้ทรัพยากรและลดจำนวนบัญชี Nominee ที่มีอยู่ในธนาคาร
+
+Solution : การนำ AI และ Data Analytics มาใช้เป็น solution สำหรับการตรวจจับ Nominee Account ช่วยลดภาระงานที่เกี่ยวข้องกับการปิดบัญชีตามคำสั่งจากหน่วยงานทางการ และลดการใช้ทรัพยากรที่ไม่เกิดประโยชน์ โดยการใช้ Machine Learning ในการวิเคราะห์ข้อมูลลูกค้าและตรวจจับบัญชีที่มีความเสี่ยงสูงที่จะเป็นบัญชีม้า โดยสามารถทำได้ดังนี้:
+
+1. รวบรวมและเตรียมข้อมูล: ใช้ข้อมูลลูกค้าที่มีการติดป้ายกำกับว่าเป็นบัญชีม้าหรือไม่ และข้อมูลการใช้งาน
+2. การวิเคราะห์ด้วย Data Analytics: วิเคราะห์ข้อมูลเพื่อหาความสัมพันธ์และแนวโน้มที่บ่งชี้ถึงบัญชีม้า
+3. การใช้ AI: ใช้เทคนิค Supervised Learning หรือ Unsupervised Learning เพื่อฝึกโมเดลในการตรวจจับบัญชีที่มีความเสี่ยง
+4. การนำไปใช้จริง: นำโมเดลไปใช้ตรวจจับบัญชีใหม่ และลดภาระการตรวจสอบ และ เพิ่มความแม่นยำในการตรวจสอบ
+
+การใช้ AI และ Data Analytics จะช่วยให้ธนาคารลดค่าใช้จ่ายในการปิดบัญชีม้า และเพิ่มประสิทธิภาพในการตรวจจับได้เร็วและแม่นยำขึ้น
+
+Outcome : 1. ลดจำนวนบัญชีม้า
+ตัวชี้วัด: จำนวนบัญชีม้าที่ถูกตรวจจับได้
+ผลลัพธ์: ลดจำนวนบัญชีม้าที่ธนาคารต้องจัดการและลดคำสั่งจากหน่วยงานทางการ
+
+2. เพิ่มความแม่นยำในการตรวจจับ
+ตัวชี้วัด: Precision และ Recall
+ผลลัพธ์: ตรวจจับบัญชีม้าได้แม่นยำขึ้น ลดการแจ้งเตือนผิดพลาด
+
+3. ลดเวลาและทรัพยากรที่ใช้ในการดำเนินการ
+ตัวชี้วัด: เวลาในการตรวจจับและปิดบัญชี
+ผลลัพธ์: ลดเวลาในการตรวจสอบและลดภาระงานของพนักงาน
+
+4. ประหยัดต้นทุน
+ตัวชี้วัด: ค่าใช้จ่ายในการตรวจจับและปิดบัญชีม้า
+ผลลัพธ์: ลดต้นทุนที่เกี่ยวข้องกับการจัดการบัญชีม้า
+
+5. เพิ่มประสิทธิภาพการตรวจสอบ พิสูจน์ทราบ
+ตัวชี้วัด: ความเร็วในการตรวจสอบ พิสูจน์ทราบ
+ผลลัพธ์: ช่วยให้การตรวจสอบ พิสูจน์ทราบเร็วขึ้น และ แม่นยำมากขึ้น
+
+==================================================================================================== 
+Project code: P06
+
+Name : Bank Statement and Social Security Documents Data Extraction (ZZ.)
+
+Detail : Generative AI-Powered OCR for Financial and Social Security Documents in Vietnam
+
+Problem : ข้อมูลในเอกสาร Bank Statement และ Social Security ไม่ได้ถูกจัดเก็บอย่างครบถ้วนสมบูรณ์เนื่องจาก การใช้ทีมปฏิบัติการในการจัดเจ็บมีระยะเวลาที่ต้องใช้ในการจัดเก็บพอสมควร
+
+Solution : Generative AI ปัจจุบันเช่น ChatGPT model O1 นั้นสามารถทำ OCR ได้อย่างมีประสิทธิภาพ การใช้ Generative AI เข้ามาเป็นส่วนนึงในกระบวนการจะช่วยให้เราสามารถรวบรวมข้อมูลได้ครบถ้วนสมบูรณ์ ทั้งยังสามารถลดระยะเวลาในการทำงานของ Operation Team ลงได้
+
+Outcome : - รวบรวมข้อมูลที่มีประโยชน์จากเอกสาร Bank Statement และ Social Security ได้ครบสมบูรณ์
+- ลดระยะเวลาการทำงานของ Operation Team
+
+==================================================================================================== 
+Project code: P07
+
+Name : QA/QC for Phone Collection Script (AH., AQ.)
+
+Detail : ทำการวิเคราะห์คุณภาพการติดตามหนี้โดยการนำ AI มาใช้ในการตรวจสอบเนื้อหาการปฏิบัติงานของพนักงาน phone collector ว่าเป็นไปตาม regulation หรือไม่
+
+Problem : มีการ complain จากลูกค้าในเรื่องของการสื่อสารของพนักงาน phone collector และการตรวจสอบทำได้ยากเนื่องจากจะต้องใช้เวลามาก
+
+Solution : การใช้ AI เช่น LLM จะช่วยตรวจสอบการสื่อสารของพนักงานกับลูกค้าได้รวดเร็วและถูกต้องกว่าการตรวจสอบโดยใช้คน
+
+Outcome : สามารถ monitor การสื่อสารของพนักงานได้อย่าง real time และสามารถนำไปปรับปรุงการทำงานได้ทันทีเพื่อลดการ complain จากลูกค้า
+
+==================================================================================================== 
+Project code: P08
+
+Name : AI Fraud Detection (AH.)
+
+Detail : ใช้ในการวิเคราะห์ข้อมูลเพื่อตรวจสอบและคัดกรองลักษณะของลูกค้าที่เข้าข่ายการทุจริต ก่อนส่งให้ทางฝ่าย FR ดำเนินการต่อ ซึ่งจะช่วยเพิ่มประสิทธิภาพ และความรวดเร็วในการตรวจสอบ และหา Pattern ของลูกค้าที่น่าสงสัยได้เร็วขึ้น
+
+Problem : การคัดกรองลักษณะลูกค้าที่เข้าข่ายทุจริตต้องคัดกรองจากรายละเอียดของลูกค้าทีละเคส ซึ่งต้องใช้พนักงานที่มีประสบการณ์ในการตรวจสอบรายละเอียดต่างๆ ทำให้ใช้เวลานานและอาจมีตกหล่นได้
+
+Solution : AI สามารถเพิ่มประสิทธิภาพในการคัดกรองและตรวจสอบรายละเอียดของลูกค้าโดยที่จะมีความแม่นยำมากขึ้นแต่ใช้ระยะเวลาน้อยลง
+
+Outcome : การคัดกรองและตรวจสอบรายละเอียดลูกค้าทำได้รวดเร็วและถูกต้องมากขึ้น รวมทั้งจะได้เห็น pattern ของลูกค้าที่เข้าข่ายทุจริต
+
+==================================================================================================== 
+Project code: P09
+
+Name : Smart Pro Chatbot (CM.)
+
+Detail : ต้องการสร้าง Chatbot ที่มีความสามารถในการตอบโจทย์ต่างๆเกี่ยวกับความเสี่ยงของผลิตภัณฑ์สินเชื่อ 
+โดยแผนการดำเนินงานมีดังต่อไปนี้
+ระยะที่ 1: การวิเคราะห์ความต้องการและการออกแบบ Chatbot
+ระยะที่ 2: การพัฒนาและทดสอบ Chatbot
+ระยะที่ 3: การนำ Chatbot ไปใช้งานจริงและการปรับปรุงตามผลตอบรับ
+
+
+Problem : -การตอบคำถามเกี่ยวกับคุณภาพสินเชื่อใช้เวลานานในการค้นหาและมีโอกาสเกิดความผิดพลาดได้
+-ในการตอบคำถาม บางครั้งการไม่สามารถตอบได้ครบถ้วนในครั้งเดียว และต้องสอบถามข้อมูลเพิ่มเติมจากหลายๆ แหล่ง ซึ่งทำให้เสียเวลารอคอย
+-ต้องการทราบข้อมูลนอกเวลางาน พนักงานไม่สามารถตอบคำถามได้ในช่วงเวลานั้น 
+
+
+Solution : -ตอบคำถาม Ad hoc 
+-ส่งรายงาน Auto Alert trigger 
+-ส่งรายงานประจำวัน
+-นิยามความหมายที่ใช้งานกันในสายงาน
+-สามารถนำข้อมูลเว็บไซต์หรือข่าวต่างๆ มาวิเคราะห์ความเสี่ยงร่วมกับข้อมูลภายในฝ่าย เช่น  
+  น้ำท่วม จังหวัดใดได้รับผลกระทบบ้าง มีลูกค้าเราอยู่ใน location นั้นเยอะหรือไม่เป็นจำนวนเท่าไหร่
+  ไวรัส hMPV แพร่กระจายรุนแรง  ลูกค้ากลุ่มใดที่ทำธุรกิจที่ประเทศที่เชื้อแพร่กระจาย 
+  นโยบายสหรัฐอเมริกาปรับกำแพงภาษี ลูกค้ากลุ่มใดที่บ้างที่ได้รับผลกระทบ   เป็นต้น
+
+
+Outcome : -ความพึงพอใจของผู้ใช้ (User Satisfaction): การสำรวจความพึงพอใจของผู้บริหารที่ใช้ Chatbot ผ่านแบบสอบถามหรือการสัมภาษณ์
+-อัตราการใช้งาน (Usage Rate): การวัดจำนวนครั้งที่ผู้บริหารใช้ Chatbot ในช่วงเวลาที่กำหนด
+-ความแม่นยำของคำตอบ (Accuracy of Responses): การประเมินความถูกต้องและความครบถ้วนของคำตอบที่ Chatbot ให้กับผู้บริหาร
+-เวลาในการตอบคำถาม (Response Time): การวัดระยะเวลาที่ Chatbot ใช้ในการตอบคำถามของผู้บริหาร
+-การลดภาระงานของทีมสนับสนุน (Reduction in Support Workload): การวัดการลดลงของจำนวนคำถามหรือปัญหาที่ทีมสนับสนุนต้องจัดการหลังจากการใช้งาน Chatbot
+
+==================================================================================================== 
+Project code: P10
+
+Name : AI for Financial & ESG Data Accuracy and Risk Insights (CM., IY.)
+
+Detail : การทำงานด้าน ความเสี่ยงเครดิต (credit risk) และ ความเสี่ยงทางสิ่งแวดล้อมและสังคม (ESG risk) ต้องอาศัยข้อมูลที่มีคุณภาพและเชื่อถือได้เป็นหลัก เพื่อให้การประเมินความเสี่ยงและการตัดสินใจทางธุรกิจเกิดขึ้นได้อย่างมีประสิทธิภาพ ดังนั้น การเก็บข้อมูลให้มีความแม่นยำและรวดเร็วจึงเป็นสิ่งสำคัญที่สุด ข้อมูลที่ดีจะช่วยให้การประเมินด้านความเสี่ยงสามารถทำได้อย่างถูกต้องและโปร่งใส พร้อมทั้งช่วยเพิ่มความมั่นใจในการวิเคราะห์และคาดการณ์ผลกระทบที่จะเกิดขึ้นในอนาคต โครงการที่ทางทีมสนใจประกอบไปด้วย 2 Phase ได้แก่
+
+Phase 1. AI for Data Validation
+1.1 กำหนดข้อมูล และ format ที่ต้องการจาก AI ให้ชัดเจน เพื่อให้ AI ทำการดึงข้อมูล และรายงานผลข้อมูล ในรูปแบบที่ User กำหนด เพื่อลดระยะเวลาทำงานของ User และพร้อมนำไปใช้งานต่อได้อย่างมีประสิทภาพ ตัวอย่างข้อมูลที่สำคัญ ได้แก่ Key Financial items, GHG Emission Scope, กำลังการผลิตของลูกค้า เป็นต้น 
+Phase 2. AI Generating
+2.1 พัฒนาข้อมูลสมบูรณ์ ข้อมูล Key Financial items ได้รับยืนยันและเพื่อเพิ่มความน่าเชื่อถือ และนำข้อมูลเหล่านี้มาวิเคราะห์ต่อยอดเพื่อค้นหาหา insight, Early warning sign และ Trend analysis 
+2.2 ให้ AI ช่วยประเมิน Carbon Emission พร้อมกับคำนวณ Funding amount ที่ธนาคารสามารถเข้าไปปล่อยสินเชื่อ
+
+
+Problem : สถานการณ์ปัจจุบัน ปัญหาและอุปสรรคที่พบในการทำงานปัจจุบัน แบ่งออกเป็น 2 ส่วน ดังนี้ 
+1. Financial Statements
+1.1 ข้อมูลในระบบของธนาคารนั้น ยังคงมีบาง Key ratio ที่สำคัญที่ยังไม่สมบรูณ์ เช่น Sales ในบางปียังขาดหายไป รวมทั้ง CAPEX ที่ไม่ได้มีการเก็บบันทึกข้อมูลไว้ ซึ่ง Key ratio ดังกล่าวเป็นข้อมูลสำคัญสำหรับการพัฒนา model forecasting เช่น financial statement forecasting เป็นต้น
+1.2 ผลจากการประเมิน financial statement เป็นการประเมินรายลูกค้า ข้อมูลที่มีจึงมีขนาดใหญ่และมีรายละเอียดสำคัญ ทางทีมจึงใช้ระยะเวลานานในการวิเคราะห์ และคัดเลือกลูกค้าที่คาดว่าจะมี sign ที่แย่
+
+2.Sustainable Development report
+2.1 ใช้เวลาและทรัพยากรเป็นอย่างมากในการหาข้อมูล ESG เพื่อให้ในการประเมิน Finance emission ปัจจุบันนี้ 
+2.2 ESG data source provider อย่าง Bloomberg ที่มีการรวบรวมข้อมูล ESG ของลูกค้า ยังอยู่ในระดับ Listed Company และยังให้ข้อมูล ESG ไม่ครบถ้วนเพียงพอ ในทุกมิติสำหรับการคำนวณ Finance emission ของธนาคาร 
+
+
+Solution : AI ช่วยเก็บข้อมูลและวิเคราะห์ข้อมูล Financial statement และ ESG ที่จำเป็น เพื่อนำมาใช้ในการประเมินความเสี่ยงด้าน Credit และ ESG จากโครงการได้
+1. AI จะช่วยเก็บข้อมูล Key ratio ที่สำคัญจากไฟล์คำอธิบายงบการเงิน เพื่อลดเวลาในการเก็บข้อมูล และได้ข้อมูลที่ถูกต้อง พร้อมใช้งานในรูปแบบ format ที่ต้องการ
+2. AI จะช่วยสรุปผลการประเมิน financial statement forecast เพื่อ trigger ลูกค้าหรืออุตสาหกรรมที่มีความเสี่ยงที่จะมีผลประกอบการแย่ ได้รวดเร็วและถูกต้อง
+3. AI สามารถรวบรวมข้อมูลด้าน ESG ต่างๆ ของลูกค้า มาประเมิน Performance ต่างๆ ที่ธนาคารสนใจ เช่น ข้อมูลปริมาณการปล่อยก๊าซเรือนกระจกของลูกค้า และช่วยในการเตรียมแบบฟอร์มที่จะสามารถนำข้อมูลดังกล่าวไปใช้ได้ตามขั้นตอนของโครงการอื่นๆ ซึ่งการให้ AI จัดเตรียมข้อมูลจะช่วยให้ประหยัดเวลาและรวดเร็วและมีประสิทธิภาพมากขึ้น
+
+
+
+
+Outcome : 1.	สามารถลดระยะเวลาทำงาน 
+2.	ได้ข้อมูลที่มีความถูกต้องและแม่นยำ เพิ่ม accuracy ของ model forecasting เช่น financial statement forecasting 
+3.	หากธนาคารตรวจพบลูกค้าหรืออุตสาหกรรมที่มี sign แย่ล่วงหน้า สามารถลดโอกาสที่ลูกค้าจะเป็น NPL รวมทั้งลด credit cost ของธนาคารได้
+4.	โอกาสในการได้วงเงินสินเชื่อจากลูกค้าเพิ่มขึ้น
+
+
+==================================================================================================== 
+Project code: P11
+
+Name : Social Media Fraud Signal Detection (ZX.)
+
+Detail : Social Media Fraud Signal Detection: This project leverages cutting-edge technologies like Natural Language Processing (NLP), Graph Neural Networks (GNNs), and Computer Vision to proactively identify and mitigate fraud risks originating from social media platforms. By analysing public posts, profiles, and networks in real-time, this AI-powered solution detects bank logo misuse, fraudulent keywords, impersonation attempts, and scam networks, delivering actionable insights via interactive Power BI dashboards. With a focus on data privacy compliance, sentiment analysis, and context-aware AI models, this scalable and innovative system enhances customer protection, strengthens fraud prevention, and safeguards the bank’s reputation in the digital age.
+
+Problem : 1. Increasing Fraud on Social Media
+Social media platforms have become hotspots for fraudulent activities, including fake loan offers, impersonation of bank employees, and phishing scams targeting customers.
+2. Customer Vulnerability
+Many customers fall victim to scams due to misleading posts, aggressive marketing by fraudsters, or lack of awareness about online fraud tactics.
+3. Impersonation and Reputation Risks
+Fake profiles impersonating bank officials or support pages harm the bank’s credibility and lead to customer mistrust.
+4. Lack of Real-Time Detection
+Traditional fraud detection systems often fail to monitor social media platforms in real-time, allowing fraudsters to operate undetected for extended periods.
+5. Complex Fraud Networks
+Fraudsters often work in coordinated groups, making it challenging to detect patterns or connections between accounts without advanced tools.
+6. Dynamic and Evolving Tactics
+Fraudsters continuously adapt their methods, using new keywords, hashtags, and tactics to evade detection.
+7. Reputation Damage
+Negative sentiment arising from fraudulent activities linked to the bank can tarnish its image, leading to financial and customer trust losses.
+8. Manual Monitoring Limitations
+Human efforts to track and address fraud signals on social media are time-intensive, prone to errors, and lack scalability.
+
+
+Solution : 
+1. Fraud Signal Identification
+1.1 Detect posts or advertisements claiming fraudulent services (e.g., "Guaranteed loan approval" or "Manipulate your credit score").
+1.2 Monitor hashtags or keywords linked to scams (e.g., #QuickLoan, #FixCreditScore).
+1.3 Analyse sentiment and intent of posts using Natural Language Processing (NLP).
+2. Profile Behavior Analysis
+Detect impersonation of bank officials or fake accounts pretending to represent the bank.
+3. Network Analysis
+3.1 Map relationships between accounts to identify networks of scammers or mule accounts.
+3.2 Use graph analysis to find clusters of fraudulent activities or repeated patterns.
+4. Customer Protection Alerts
+Provide early warnings about potential risks associated with specific profiles or posts.
+
+
+Outcome : 1. Proactive Fraud Prevention - Identifying fraud signals on social media before they impact customers or the bank.
+2. Customer Safety - Protecting customers from falling victim to scams, enhancing trust in the bank.
+3. Reputation Protection - Mitigating risks to the bank’s reputation by addressing fake profiles or negative propaganda.
+4. Scalable Solution - The system can be scaled to monitor multiple platforms and languages, ensuring comprehensive coverage.
+
+==================================================================================================== 
+Project code: P12
+
+Name : Green Pass (สะดวก ตรวจสอบง่าย สู่โลกยั่งยืน!) (IY.)
+
+Detail : ใช้ AI ในการช่วยพิจารณาสินเชื่อ/กิจกรรมที่เข้าข่ายกิจกรรมเพื่อสิ่งแวดล้อม (Green finance) โดยอ้างอิงตามนิยามของ Green Finance Framework และ Thailand Taxonomy (Phase I) โดย Use Case Scope ดังนี้  
+Scope: 	
+1. KBank ESG Risk Policy (ต้องไม่ขัดต่อนโยบายธนาคารฯ)
+2. KBank Green Finance Framework
+3. Taxonomy
+4. All sectors (สามารถใช้ได้กับทุกอุตสาหกรรม)
+Process: 
+Inputs ISIC code, business code, use of proceeds, Project Description (i.e. project size, capacity, production.
+Outputs:
+1. ESG Risk Policy Check: Policy Risk Colors (Exclusion or Red/ High/ Medium/ Low/ Green)
+2. Green Eligibility Check
+3. Environmental Objective 
+4. เข้าเกณฑ์ Incentivization Framework 
+
+
+Problem : การพิจารณา ESG อยู่ในกระบวนการพิจารณาสินเชื่อ ซึ่งทีม ESG ต้องทำการพิจาณาในหลายมิติ เช่น นโยบายนโยบายเครดิตสำหรับสิ่งแวดล้อม สังคม และธรรมาภิบาล ที่มีการกำหนดความเสี่ยงด้าน ESG, คู่มือสินเชื่อเพื่อความยั่งยืนของธนาคาร (Green Finance Framework) และการจัดสีธุรกิจ ตามนิยามของ Thailand Taxonomy (Phase I) รวมถึงคำถามที่เกี่ยวข้องกับ ESG ซึ่งในการพิจารณาดังกล่าวต้องใช้ระยะเวลาในการหาข้อมูล วิเคราะห์ สรุปผลค่อนข้างนาน เนื่องจากจำนวนเคสที่เข้ามาหารือมีจำนวนมาก ส่งผลให้เสียโอกาสด้านธุรกิจได้ นอกจากนี้ นโยบายหรือหลักเกณฑ์ต่างๆในการพิจารณามีการพัฒนาและปรับปรุงเสมอ โดยเฉพาะในส่วนของเกณฑ์การจัดสีกิจกรรม นโยบายต่างๆ และ Thailand Taxonomy ซึ่งมีความซับซ้อนและเปลี่ยนแปลงอยู่ตลอดเวลา ทำให้กระบวนการประเมินกิจกรรมของลูกค้าเพื่อจัดให้อยู่ในกลุ่มสีต่าง ๆ ตาม Taxonomy นั้นมีความท้าทายและใช้เวลานาน โดยเฉพาะอย่างยิ่งในส่วนของการรวบรวมและวิเคราะห์ข้อมูลที่หลากหลาย เช่น ข้อมูลเกี่ยวกับปริมาณการปล่อยก๊าซเรือนกระจก เทคโนโลยีที่ใช้ และกระบวนการผลิต เป็นต้น ซึ่งเกณฑ์เหล่านี้อาจมีการปรับเปลี่ยนบ่อยครั้ง ทำให้เกิดความไม่แน่นอนในการประเมินและอาจส่งผลต่อความล่าช้าในการอนุมัติสินเชื่อ
+
+
+Solution : การนำเทคโนโลยี AI มาประยุกต์ใช้กระบวนการพิจารณาสินเชื่อจะช่วยแก้ไขปัญหาที่เกิดจากความซับซ้อนของเกณฑ์ ปริมาณข้อมูลที่มาก และความต้องการความแม่นยำและรวดเร็วในการประเมินเหล่านี้ได้เป็นอย่างดี โดย AI สามารถเรียนรู้และปรับตัวให้เข้ากับข้อมูลต่างๆในการพิจารณาที่เปลี่ยนแปลงได้อย่างรวดเร็ว ทำให้กระบวนการประเมินมีความแม่นยำและรวดเร็วมากขึ้น ช่วยลดความผิดพลาดจากกากรอกข้อมูล และการวิเคราะห์ข้อมูล รวมทั้งสามารถเชื่อมต่อกับระบบฐานข้อมูลของธนาคาร ระบบบัญชี และแหล่งข้อมูลภายนอกอื่น ๆ เพื่อดึงข้อมูลที่จำเป็นในการประเมิน ตลอดจนสามารถตรวจสอบความสอดคล้องของข้อมูลที่ได้จากแหล่งข้อมูลต่าง ๆ เพื่อลดความผิดพลาดจากการกรอกข้อมูลซ้ำซ้อน หรือข้อมูลที่ขัดแย้งกัน ซึ่งจะนำไปสู่การตัดสินใจที่แม่นยำยิ่งขึ้น ซึ่งช่วยให้ผู้เชี่ยวชายสามารถตรวจสอบในความถูกต้องได้อย่างรวดเร็ว ส่งผลให้กระบวนการพิจารณาสินเชื่อทางด้าน ESG มีความรวดเร็วยิ่งขึ้น
+
+Outcome : 1)	ลดระยะเวลาในขั้นตอนการพิจารณาด้าน ESG 
+2)	เพิ่มโอกาสด้านธุรกิจ ทางด้าน Green Finance 
+3)	เพิ่มโอกาสการบรรลุเป้าหมายของธนาคาร sustainable finance 1-2 แสนล้านบาท ภายในปี 2030
+4)	ช่วยเพิ่มประสิทธิภาพการทำงานของพนักงานผู้พิจารณาให้ความเห็น มีเวลาไปพัฒนางานส่วนอื่นๆได้ 
+5)	สร้างฐานข้อมูล database สำหรับใช้ในทีม
+
+
+
+==================================================================================================== 
+Project code: P13
+
+Name : AI-Driven Face Scan Verification with Metadata and Background Analysis (ZX.)
+
+Detail : Develop an AI-powered verification system that combines facial recognition technology, metadata extraction, and background analysis to detect suspicious behaviours, such as coordinated account registrations or fraud attempts by groups operating as a gang. The system will analyse biometric features, metadata (e.g., date, IP address, geolocation), and image backgrounds to identify patterns of suspicious activities.
+
+Problem : 1. Coordinated Fraud Rings
+Organized fraud groups often register multiple accounts or perform suspicious activities in a coordinated manner, making it difficult to identify and disrupt their operations using traditional detection methods.
+2. Ineffective Manual Reviews
+Manual verification processes are time-consuming, prone to human error, and insufficient for detecting subtle patterns, such as shared metadata or recurring backgrounds across accounts.
+3. Challenges in Liveness Detection
+Existing facial recognition systems struggle with preventing spoofing attempts, such as using photos, videos, or 3D-printed masks to bypass biometric verification.
+4. Overlooked Metadata and Context
+Conventional verification systems often fail to analyze metadata (e.g., timestamps, IP addresses, geolocation) or background patterns, which can provide critical clues about fraud attempts.
+5. Increasing Operational Workload
+High volumes of account registrations and transactions increase the workload for fraud prevention teams, leading to escalating costs without significant improvements in detection accuracy.
+
+
+Solution : 1. Face Scan Verification
+- Use facial recognition algorithms to match face scans with official IDs or existing records.
+- Include liveness detection to prevent spoofing through photos or videos.
+2. Metadata and Background Analysis
+- Extract and analyse metadata from the submitted images, including timestamps, IP addresses, and geolocation.
+- Use image segmentation and background matching algorithms to identify similar or identical backgrounds across multiple submissions.
+3. Pattern Recognition for Coordinated Activity
+- Detect anomalies like multiple registrations or face scans completed from the same location or with similar backgrounds.
+- Identify instances where suspicious individuals complete face scans with shared settings, suggesting coordinated actions.
+4. Risk Scoring for Gang Activity
+- Assign higher risk scores to activities that exhibit patterns of coordination (e.g., multiple accounts opened within a short time frame, shared backgrounds, or metadata anomalies).
+
+
+Outcome : 1. Proactive Fraud Detection - Identifies coordinated activities and potential fraud rings before they cause significant damage.
+2. Enhanced Security - Combines biometrics, metadata, and contextual analysis for a multi-layered approach to fraud prevention.
+3. Operational Efficiency - Automates the detection of suspicious patterns, reducing manual investigation efforts.
+4. Scalability - Adaptable to various scenarios, such as account openings, loan applications, and transaction authentications.
+
+
+==================================================================================================== 
+Project code: P14
+
+Name : Document Fraud Detection Using AI (ZX.)
+
+Detail : An AI-driven Document Fraud Detection System to verify the authenticity of customer-provided documents (e.g., IDs, income proofs, property papers) using cutting-edge technologies like Optical Character Recognition (OCR), computer vision, and deep learning. The solution will analyse document content and structure to detect alterations, forgery, or inconsistencies in real-time.
+
+Problem : 1. Rising Document Fraud
+Increasing incidents of forged or tampered documents, such as altered income proofs, or counterfeit property papers, are causing financial losses and reputational risks for financial institutions.
+2. Manual Verification Challenges
+Traditional document verification processes are manual, time-consuming, and prone to human error, leading to inefficiencies and inconsistent results.
+3. Sophistication in Fraud Tactics
+Fraudsters are using advanced techniques, including image editing software and digital manipulations, making it difficult to identify forgeries using conventional methods.
+4. Operational Inefficiencies
+High volumes of document submissions during onboarding or loan applications strain verification teams, delaying processes and increasing operational costs.
+
+
+Solution : 1. Document Authenticity Verification
+- Utilise OCR technology to extract and analyse text from documents, ensuring data consistency.
+- Detect anomalies in fonts, formatting, or tampered sections using computer vision algorithms.
+2. Forgery and Alteration Detection
+- Employ deep learning models to identify pixel-level manipulations, such as image edits, added text, or erased sections.
+- Detect mismatched data, like name discrepancies between documents, using cross-referencing algorithms.
+3. Template Matching
+- Maintain a database of official document templates (e.g., national IDs, utility bills) for comparison to identify deviations or unofficial formats.
+4. Digital Watermark Recognition
+- Identify missing or tampered digital watermarks, seals, or QR codes to detect counterfeit documents.
+
+
+Outcome : 1. Fraud Prevention: Proactively identifies forged or tampered documents, reducing fraud-related financial losses.
+2. Operational Efficiency: Streamlines the onboarding and verification processes, reducing manual review efforts.
+3. Customer Trust: Builds confidence in secure and fair financial transactions.
+
+
+==================================================================================================== 
+Project code: P15
+
+Name : Credit Policy AI Chatbot (ZP.)
+
+Detail : จัดทำ AI Chatbot เพื่อตอบคำถามเกี่ยวกับนโยบายเครดิต โดยไม่ต้องเปิดหาเอง ซึ่งจะอำนวยความสะดวกให้ผู้ถามด้านเครดิต (RM, UW, Product) ซึ่งจะช่วยลดเวลาในการเปิดหาข้อมูลและไม่ต้องติดต่อพนักงานเพื่อสอบถาม
+
+Problem : พนักงานสอบถามนโยบายเครดิตเรื่องเดียวกัน ซ้ำๆ จำนวนคนตอบมีอยู่จำกัด
+
+Solution : ประหยัดเวลาทั้งผู้ถามและผู้ตอบ
+
+Outcome : สร้าง AI Chatbot ที่ตอบคำถามได้ และเพิ่มประสิทธิภาพของกระบวนการเครดิตของธนาคาร เช่น ลด SLA
+
+==================================================================================================== 
+Project code: P16
+
+Name : Bad Bank PLearn (XC.)
+
+Detail : MicroLearning ที่ใช้ Chatbot กรณีพนักงานมีต้องการหาข้อมูลและความรู้ในงาน ระบบจะแนะนำ content หรือ website ที่เกี่ยวข้องให้พนักงานเรียนรู้ได้
+
+Problem : 1. การเรียนรู้ในรูปแบบเดิม เช่น การเรียนในห้องเรียน หรือการใช้ระบบออนไลน์บางประเภท อาจมีข้อจำกัดในเรื่องเวลาและสถานที่ ผู้เรียนอาจไม่สามารถเข้าถึงเนื้อหาหรือเรียนรู้ได้ตามความสะดวกของตนเอง
+2. หลักสูตรการเรียนรู้ในปัจจุบันบางครั้งไม่ได้ปรับเปลี่ยนหรือออกแบบให้เหมาะสมกับความแตกต่างของผู้เรียนแต่ละคน บางคนอาจเรียนรู้ได้เร็วหรือช้ากว่าคนอื่น และการเรียนรู้ที่ไม่ตอบโจทย์นี้อาจทำให้ผู้เรียนรู้สึกเบื่อหน่ายหรือไม่สามารถตามทัน
+
+Solution : ช่วยการเรียนรู้โดยการนำเสนอเนื้อหาการเรียนรู้ในรูปแบบที่กระชับ สั้น และเน้นการเรียนรู้ในปริมาณน้อยแต่บ่อยครั้ง พร้อมกับการใช้ Chatbot ที่สามารถให้คำแนะนำและตอบคำถามได้ทันที ซึ่งช่วยเพิ่มประสิทธิภาพในการเรียนรู้ในหลาย ๆ ด้าน
+
+Outcome : ช่วยให้พนักงานพัฒนาทักษะใหม่ ๆ และความรู้ที่เกี่ยวข้องกับงาน เช่น ทักษะทางเทคนิค การจัดการ หรือความรู้เกี่ยวกับผลิตภัณฑ์และบริการ รวมทั้งเพิ่มความผูกพันในการทำงานและลดอัตราการลาออกของพนักงาน
+
+==================================================================================================== 
+Project code: P17
+
+Name : Artificial Lawyer (AM.)
+
+Detail : ใช้ AI learn pattern คำฟ้อง และคำพิพากษา และนำมาตรวจคำฟ้อง คำพิพากษาแทนพนักงาน
+
+Problem : สืบเนื่องจาก ปัจจุบัน สส เป็นฝ่ายงานที่ดำเนินการฟ้องร้องลูกหนี้ที่ผิดนัดชำระ เพื่อบังคับเร่งรัดการชำระหนี้ตามกฎหมาย จึงมีเอกสารราชการที่ถูกเก็บในรูปแบบ PDF จำนวนมาก โดยหลังจากที่ทนาย ฟ้อง หรือพิพากษาสำเร็จแล้ว จะต้องมีขั้นตอนการตรวจเอกสารสัญญา และใบสรุปภาระหนี้ ซึ่งเป็นงานที่ต้องใช้คนในการตรวจทุกขั้นตอน อย่างละเอียด ทำให้พนักงานที่มีอยู่ในปัจจุบันมีปริมาณไม่เพียงพอ
+
+Solution : AI สามารถเข้าไปเรียนรู้ Pattern ของข้อมูลที่ถูกต้อง และตรวจสอบความถูกต้องของเอกสารแทนคนได้
+
+Outcome : 1.ลดปริมาณงานที่ต้องใช้คนลง 2.ลดข้อผิดพลาดในการทำงานที่อาจเกิดจาก Human Error โดยชี้วัดจาก งานคดีที่ไม่ซับซ้อนต้องถูกตรวจโดย AI 100%
+
+==================================================================================================== 
+Project code: P18
+
+Name : Web Crawler: Smarter Compliance with Images (FR., OR.)
+
+Detail : การนำ AI มาช่วยเพิ่มความสามารถของ web crawler ในการตีความข้อมูลจากภาพ (image interpretation) ควบคู่กับการอ่านข้อความ (text) บนเว็บไซต์ เพื่อ monitor ร้านค้าออนไลน์ให้ปฏิบัติตามข้อกำหนดของ Card Scheme ได้อย่างมีประสิทธิภาพมากยิ่งขึ้น
+
+Problem : ปัจจุบัน web crawler ถูกใช้งานเพื่อ monitor ร้านค้าออนไลน์ให้ปฏิบัติตามข้อกำหนดของ Card Scheme แต่การทำงานยังจำกัดอยู่เฉพาะการอ่านข้อความบนเว็บไซต์ และยังไม่ครอบคลุมถึงการวิเคราะห์หรือตีความข้อมูลจากภาพ
+
+Solution : 1. พัฒนา AI ให้สามารถเรียนรู้และระบุองค์ประกอบในภาพ เช่น ประเภทสินค้า สัญลักษณ์ หรือข้อความในภาพได้อย่างชัดเจน
+2. สร้าง prompt ให้ AI สามารถตรวจสอบและ monitor การนำเสนอสินค้าที่ต้องเฝ้าระวัง เช่น อาวุธ ยาเสพติด หรือสินค้าที่ไม่สอดคล้องกับข้อกำหนด
+3. เพิ่มประสิทธิภาพในการ monitor โดยการส่ง URL ของร้านค้าออนไลน์จำนวนมากในแต่ละเดือนให้ AI ช่วยตรวจสอบความสอดคล้องกับ compliance หากพบความผิดปกติ AI จะ flag แจ้งเตือนทันที
+
+Outcome : โครงการนี้จะช่วยธนาคารสามารถ monitor ร้านค้าออนไลน์ได้อย่างมีประสิทธิภาพมากขึ้น หากพบความผิดปกติที่ร้านค้าไม่ปฏิบัติตามข้อกำหนดของ Card Scheme ธนาคารจะได้สามารถตัดสินใจดำเนินการกับร้านค้าได้อย่างรวดเร็ว
+
+==================================================================================================== 
+Project code: P19
+
+Name : Mule Score (FR.)
+
+Detail : กำหนดระดับความเสี่ยงของการเป็นบัญชีม้า เพื่อการจัดการที่มีประสิทธิผล
+
+Problem : การบริหารจัดการบุคคลต้องสงสัยในปัจจุบันยังไม่มีประสิทธิภาพเพียงพออันเนื่องมาจากกำลังคนและเวลาที่มีอยู่อย่างจำกัด หากมีเครื่องมือมาช่วยในการบริหารจัดการและมีแผนงานที่ชัดเจนจะทำให้การบริหารจัดการมีประสิทธิภาพมากขึ้น
+
+Solution : กำหนดระดับความเสี่ยงของการเป็นบัญชีม้า เพื่อการจัดการที่มีประสิทธิผล
+
+Outcome : ข้อมูลจากโครงการ สามารถนำมาใช้เพื่อเพิ่มประสิทธิภาพในการบริหารจัดการบัญชีต้องสงสัยบัญชีม้าและป้องกันมูลค่าความเสียหายที่อาจเกิดขึ้น
+
+==================================================================================================== 
+Project code: P20
+
+Name : NPA AI Decoration (AM.)
+
+Detail : เพิ่มประสิทธิภาพในการขายทรัพย์ NPA โดยนำ AI ออกแบบทั้งภายนอกและภายในของทรัพย์ เพื่อดึงดูดให้ลูกค้าเห็นความเป็นไปได้ในการตกแต่งเพื่ออยู่อาศัยหรือลงทุน
+
+Problem : เมื่อลูกค้าเห็นรูปหรือเยี่ยมชมทรัพย์ สภาพทรัพย์ปัจจุบันอาจทำให้ไม่ได้นึกถึงความเป็นไปได้ในการตกแต่ง ซึ่งทำให้ไม่เกิดความดึงดูดในการซื้อทรัพย์
+
+Solution : ทำให้เกิดความน่าสนใจ ดึงดูดลูกค้าเข้าชมและซื้อทรัพย์เพิ่มมากขึ้น
+
+Outcome : ยอดขายเพิ่มขึ้น 
+
+==================================================================================================== 
+Project code: P21
+
+Name : Ardent Incident Explorer (CP.)
+
+Detail : ใช้เทคโนโลยีปัญญาประดิษฐ์ (AI) ในการรวบรวมและวิเคราะห์ข่าวสารที่มีผลกระทบต่ออุตสาหกรรมต่างๆ โดยทำการจัดกลุ่มข่าวสารตามอุตสาหกรรมหรือประเทศที่ได้รับผลกระทบ จากนั้นประเมินระดับความสำคัญและผลกระทบของข่าวเหล่านั้น เมื่อผลกระทบถึงระดับที่กำหนด ระบุรหัสธุรกิจที่เกี่ยวข้อง และประเมินผลกระทบต่อพอร์ตโฟลิโอของธนาคาร เพื่อสร้างความสามารถในการจัดการความเสี่ยงและปรับนโยบายได้รวดเร็วและเหมาะสม
+
+Problem : ปริมาณงานที่มากขึ้น ทำให้การติดตามข่าวไม่เป็นไปอย่างต่อเนื่อง ส่งผลให้การประเมินผลกระทบต่อพอร์ตโฟลิโอล่าช้า และก่อให้เกิดความเสียหายต่อธนาคาร
+
+Solution : 1. ประมวลและกรองข่าวสารที่สำคัญ นำมาประเมินผลกระทบต่อธุรกิจ
+2. ลดระยะเวลาในการระบุรหัสธุรกิจและจัดทำรายงานผลกระทบต่อพอร์ตโฟลิโอของธนาคาร
+
+
+Outcome : 1. ติดตามข่าวสารที่สำคัญครบถ้วนและทันการณ์
+2. ประเมินระดับผลกระทบของข่าวและรหัสธุรกิจได้อย่างถูกต้อง
+3. ออกรายงานผลกระทบต่อพอร์ตโฟลิโอที่เคยเกิดขึ้นแล้วภายใน 3ชม. หากเป็นเหตุการณ์ใหม่ภายใน 1วัน
+
+==================================================================================================== 
+Project code: P22
+
+Name : Customer Profiler (IM.)
+
+Detail : AI ช่วยในการหาข้อมูล profile ลูกค้า
+
+Problem : เมื่อลูกค้าสมัคร loan เข้ามา แล้วมีการกรอกอาชีพ เช่น หมอ วิศวะ เป็นต้น 
+ทางทีมอยากจะ verified ข้อมูลลูกค้าก่อนจะนำมาคำนวณ หรือวิเคราะห์การคิด Credit score
+
+Solution : AI จะช่วยในการนำชื่อลูกค้าไปเสิร์จสำหรับกรณีอาชีพที่ต้องใช้ใบอนุญาตืในการประกอบอาชีพ
+
+Outcome : ข้อมูลมีความถูกต้องมากขึ้น และป้องกันการ fraud หรือการกรอกข้อมูลผิดในเรื่องอาชีพได้
+
+==================================================================================================== 
+Project code: P23
+
+Name : Voice Analytics for Collection (IM., AQ.)
+
+Detail : Voice Analytics for Collection
+
+Problem : อัตราการประสบความสำเร็จในการตามหนี้เพื่อให้ลูกค้าจ่ายเต็มวงเงิน (Full Payment) ยังไม่สูง
+และภายในธนาคารยังไม่เคยสร้าง Capability ในการวิเคราะห์บทสนทนาเพื่อเพิ่มประสิทธิภาพในการตามหนี้
+
+Solution : ใช้ AI ช่วยถอดบทสนทนามาเป็น Text และใช้ Natural Language Processing Tools ในการวิเคราะห์ลักษณะการพูดที่มีโอกาสตามหนี้ได้สูง
+
+Outcome : อัตรา Full Payment เพิ่มขึ้น 20%
+
+==================================================================================================== 
+Project code: P24
+
+Name : AI for Early Warning Sign (IM.)
+
+Detail : AI for Early Warning Sign
+
+Problem : ไม่สามารถใช้ประโยชน์จาก unstructured data ทั้ง private data และ public data มาวิเคราะห์ความเสี่ยงรายลูกค้าเพื่อให้เห็น insight ได้
+
+Solution : สามารถนำข้อมูลมาวิเคราะห์ความเสี่ยงได้จากการใช้ sentiment model รวมทั้งสามารถช่วยในการจัดเก็บข้อมูลที่มีประโยชน์ให้เป็น structure data เพื่อนำไปใช้ต่อได้
+
+Outcome : Reduce 30+ DPD inflow 
+Lower exposure to high-risk customers 
+ECL Saving
+
+==================================================================================================== 
+Project code: P25
+
+Name : Collateral Price Predictive Model (AH.)
+
+Detail : AI : Predictive Model
+ใช้ AI ในการ ตรวจสอบรูปภาพหลักประกัน เทียบกัน รูปหลักประกันเริ่มแรก และเปรียบเทียบรูปหลักประกันกับสิ่งปลูกสร้างในพื้นที่ ผ่านการตรวจสอบรูปภาพบน Public Website พร้อมประเมินราคาหลักประกันเทียบกับราคาจริงในท้องตลาดผ่าน Public data เพื่อ นำเสนอราคาหลักประกันที่ใช้ในการโอนตีหลักประกัน และนำเสนอราคาขายหลักประกัน (NPA) ที่เหมาะสม เพื่อสร้างโอกาสในการจบหนี้ และขายหลักประกันได้อย่างคุ้มค่า
+
+Problem : ปัจจุบันกรณีลูกหนี้ไม่มีความสามารถในการชำระหนี้ แต่มีหลักประกันกับธนาคาร ธนาคารจะเสนอให้โอนตีหลักประกันให้กับธนาคารเพื่อนำมูลค่าหลักประกันมาชำระหนี้ และจบหนี้กับธนาคาร
+การประเมินราคาหลักประกันและรับซื้อราคาหลักประกัน อ้างอิงจากการประเมินราคาหลักประกันโดยผู้ประเมิน และการให้ราคาเทียบจาก นโยบายที่กำหนด ทำให้การประเมินราคาอาจมีความแตกต่างจากราคาตลาด และราคาที่มีการซื้อขายกันในท้องตลาดได้ ทำให้ทรัพย์จากการโอนตีจะเป็น NPA ที่รอการขาย ทำให้ธนาคารเสียเงินในการสำรองเพื่อทรัพย์รอการขาย
+
+Solution : การ ใช้ AI มาช่วยเปรียบเทียบราคาหลักประกันโดยใช้รูปหลักประกัน ไปเปรียบเทียบกันหลักประกันชิ้นอื่นๆในพื้นที่ใกล้เคียงจะทำให้ทราบราคาประเมินมาตรฐานเทียบกับราคาตลาด และ เสนอราคาที่เหมาะสมที่ธนาคารควรได้รับ พร้อมเสนอราคาขายทรัพย์ และ target ของลูกค้าที่ต้องการทรัพย์ประเภทนี้ โดยการใช้ข้อมูลจาก public website หรือ social media ต่างๆมาประมวลผลควบคู่กันไปด้วย
+
+Outcome : เสนอราคาโอนตีได้เหมาะสมกับราคามาตรฐานและราคาตลาด รวมถึงเสนอราคาขายทรัพย์NPA พร้อมทั้งMatchingกลุ่มผู้ซื้อทรัพย์ได้มากขึ้น ลดการตั้งสำรองNPAของธนาคารได้
+
+==================================================================================================== 
+Project code: P26
+
+Name : Mismatch industry detection (CQ.)
+
+Detail : การประมาณการรายได้ที่แท้จริงของลูกค้า Corporate business เพื่อนำไปวิเคราะห์ในเชิงลึกต้องใช้เวลาและข้อมูลจากหลายแห่ง จึงมีแนวคิดในการสร้างเครื่องมือที่ช่วยในการตรวจสอบรายได้ของลูกค้า ในมุมของธุรกิจที่ไม่สอดคล้องกัน
+
+Problem : การตรวจสอบรายได้ของลูกค้าในมุมของธุรกิจไม่สอดคล้องกันต้องมีการหาข้อมูลจากหลาย source และต้องใช้เวลาในการทำความเข้าใจธุรกิจของผู้ที่เกี่ยวข้องทั้งหมด ทำให้ต้องใช้ระยะเวลาถึง 2 ชั่วโมง ต่อ 1 case อีกทั้งในปัจจุบันจะตรวจสอบเพียง Top 10 ขารับ/ขาจ่าย ของลูกค้าทั้งหมด
+
+Solution : สามารถลดระยะเวลาจากการที่ต้องให้ผู้สอบทานไปพิจารณาแบบ manual เป็นการให้ความน่าจะเป็นของความไม่เกี่ยวข้องของคู่ค้าแต่ละรายได้ทันที
+
+Outcome : Time saving 2 hrs/ case = boost more 150 cases per year = increase exposure coverage up to 70,000 MB per year.
+
+==================================================================================================== 
+Project code: P27
+
+Name : Enhance Risk Scoring for Case Selection (CQ.)
+
+Detail : Enhance risk score สำหรับการเลือก incoming policy lending case ขึ้นมาสอบทานประเด็นความเสี่ยง
+
+Problem : เนื่องจากปัจจุบัน risk score ที่ใช้เพื่อเป็น guideline ในการเลือกเคสที่มีประเด็นความเสี่ยงเพื่อทำการสอบทานนั้นไม่สะท้อนต่อความเสี่ยงที่เกิดขึ้นจริง (ความเสี่ยงที่พบหลังสอบทานนั้น ไม่สอดคล้องกับความเสี่ยงที่ถูกประเมินไว้ก่อนทำการสอบทาน) ด้วยเหตุนี้ผู้สอบทานจึงต้องลงแรงลงเวลาไปกับการเลือกเคส (บางกรณีอาจใช้เวลาถึงครึ่งวัน หรือ บางกรณีอาจถึงขั้นที่ว่าเป็นการลงมือสอบทานเคสนั้นจนใกล้เสร็จสิ้นแล้วเสียด้วยซ้ำ) เพื่อให้สามารถหยิบเคสที่มีประเด็นความเสี่ยงขึ้นมาสอบทาน
+
+นอกเหนือจากประเด็น risk score ไม่สะท้อนฯ ซึ่งก่อให้เกิดขั้นตอนการเลือกเคสที่ไม่ efficient ก็ยังเชื่อมโยงไปถึง concern ในมุมของ effectiveness ในส่วนของความแม่นยำ (ลง resource ไปกับการสอบทานเคสที่ไม่มีประเด็นเยอะเกินไปหรือไม่) และความครอบคลุม (เคสที่มีประเด็นความเสี่ยงที่ไม่ถูกหยิบมาสอบทานนั้นหลุดไปเยอะหรือไม่) ด้วยเช่นกัน
+
+Solution : ช่วยในการคำนวณ risk score ให้สอดคล้องต่อความเสี่ยงที่เกิดขึ้นจริงมากยิ่งขึ้น เพื่อให้สามารถเลือกเคสมาตรวจได้ effective มากขึ้น (เพิ่มความแม่นยำ precision และความครอบคลุม recall) และ efficient มากขึ้น (ideally ผู้สอบทานสามารถเลือก case ที่มี risk score สูงสุดได้เลยโดยไม่ต้อง manually เลือก case เอง)
+
+Outcome : ในมุม effectiveness จะถูกวัดในมุม precision และ recall
+- Boost precision 2x from 4% to 8% (at least)
+- existing recall 64% -> expected recall >= 85% (at least)
+
+ในมุม efficiency จะถูกวัดในมุม time spent on case selection
+- expect saving time 4 hours ต่อคนต่อรอบ  (2 รอบต่อสัปดาห์) 
+
+==================================================================================================== 
+Project code: P28
+
+Name : KNUW Powered by AI (ZU.)
+
+Detail : โครงการนี้มุ่งพัฒนาแพลตฟอร์ม AI ที่ช่วยรีวิว Credit Write-up (CWU) เพื่อตรวจสอบความถูกต้องและความสอดคล้องของข้อมูล ตรวจสอบความสอดคล้องกับนโยบายเครดิต และแจ้งเตือนความเสี่ยงทางการเงิน รวมถึงผลกระทบจากปัจจัยภายนอกจากสถานการณ์ปัจจุบัน 
+
+Problem : 1. ในปัจจุบัน กระบวนการรีวิวCWUโดยUWใช้เวลานานในการตรวจสอบ
+2. CWUมีข้อมูลซับซ้อนและต้องการการตรวจสอบที่ละเอียด
+3. มีโอกาสเกิดข้อผิดพลาดจากUWในการตรวจสอบเอกสารและประเมินความเสี่ยง
+4. การประเมินผลกระทบจากปัจจัยภายนอก เช่น ข่าวเชิงลบหรือแนวโน้มอุตสาหกรรม ยังขาดการบูรณาการอย่างมีประสิทธิภาพ
+
+Solution : 1. ใช้ AI เพื่อตรวจสอบความสอดคล้องและความถูกต้องของข้อมูลในCWU
+2. วิเคราะห์งบการเงินเพื่อตรวจจับปัญหาทางการเงิน 
+3. รวมข้อมูลภายนอก เช่น ข่าวเชิงลบ คดีความ ภาวะในอุตสาหกรรม หรืออื่นๆ เพื่อให้การประเมินความเสี่ยงครอบคลุม
+4. เพิ่มความรวดเร็วและความแม่นยำในการประเมินความเสี่ยง
+
+Outcome : 1.) ลดเวลาที่UWใช้ในการรีวิวCWUจากหลายชั่วโมงเหลือเพียงไม่กี่นาที (ไม่รวมการวิเคราะห์เพื่อtake action, เป้าหมายเวลาที่ลดได้จะมีการประเมินอีกครั้งเพื่อให้สะท้อนความเป็นจริง)
+
+2.) ลดข้อผิดพลาดของUWที่เกิดจากการรีวิวCWUโดยวิธีแบบmanual
+เพิ่มความแม่นยำในการวิเคราะห์ความเสี่ยง
+
+3.) เพิ่มความแม่นยำในการวิเคราะห์ความเสี่ยง
+
+
+
+==================================================================================================== 
+Project code: P29
+
+Name : AI Credit Fraud Advisor (FR., SO.)
+
+Detail : คัดกรองข้อคำถามที่ต้องการสอบถามเกี่ยวกับประเด็นความเสี่ยงด้านทุจริต
+
+Problem : ในสถานการณ์ปัจจุบัน ผู้ที่คัดกรองและตรวจสอบเคสที่เข้ามายังฝ่ายเป็นบุคคลเดียวกัน หากมีเครื่องมือที่สามารถช่วยคัดกรองเคสต่างได้ จะทำให้ฝ่ายตรวจสอบเคสที่เข้ามาในแต่ละวันได้มากขึ้น
+
+Solution : 'พัฒนา AI เพือทำหน้าที่แทนผู้ที่คอยจัดการคัดกรองเคสต่างๆ
+
+Outcome : สามารถเพิ่ม capacity ในการรับเคสต่อกำลังคนที่มีอยู่ได้มากขึ้น
+
+==================================================================================================== 
+Project code: P30
+
+Name : Automate Regulatory Operation Driven by AI (LG., CT.)
+
+Detail : การนำ OCR มาช่วยอ่านข้อความจากหมายคำสั่งหน่วยงานทางการมาเป็น TEXT และใช้ AI เข้าไปวิเคราะห์ข้อความทั้งหมด เพื่อดึงข้อมูล และวิเคราะห์คำสั่ง ว่าหมายคำสั่งนั้นต้องการให้ธนาคารดำเนินการยังไง เช่น ขอข้อมูล , อายัด/ปลดอายัด และนำ RPA มานำข้อมูลที่ AI ได้มา ไปทำการดึงข้อมูลตามระบบต่างๆ ของธนาคาร หรือ ดำเนินการอายัด/ปลดอายัด ตามคำสั่งหน่วยงานทางการ  ทั้งนี้เพื่อเพิ่มขีดความสามารถให้ธนาคารสามารถ ดำเนินงานตามคำสั่งหน่วยงานทางการได้อย่าง รวดเร็ว และมีประสิทธิภาพยิ่งขึ้น
+
+Problem : เนื่องจากกระบวนการทำงานทุกขั้นตอน (อ่านหมาย เตรียมข้อมูล อายัด/ถอนอายัด จัดทำหนังสือตอบ) ใช้พนักงานในการทำงานทั้งหมด ซึ่งทำให้มีต้นทุนในการดำเนินงานสูง โดยปัจจุบันมีแนวโน้มที่จะมีปริมาณงานเพิ่มสูงขึ้น ทำให้ต้องมีการเพิ่มผู้ปฏิบัติงานหากไม่มีการนำเครื่องมือเข้ามาช่วย Lean Process
+
+Solution : 1. ใช้ OCR เพื่ออ่านข้อความในหมายโดยหมายจะถูกสแกนเป็นไฟล์ PDF 
+2. ใช้ AI เพื่อตรวจสอบข้อความที่ OCR อ่านมาได้ และแยกเป็นข้อมูลที่ธนาคารจำเป็นต้องใช้ และนำไปตรวจสอบเทียบกับฐานข้อมูล ว่าหมายนั้นๆ ตรงตามกับอำนาจหน้าที่ในการขอข้อมูล หรือสามารถสั่งการ อายัด ปลดอายัด ได้หรือไม่
+3. ใช้ RPA นำข้อมูลที่ได้ ไปใช้ในการดึงข้อมูลต่างๆ หรือดำเนินการ อายัด/ปลดอายัด ตามที่หมายคำสั่งแจ้งให้ดำเนินการ
+
+Outcome : โครงการนี้จะสามารถทำให้ธนาคารสามารถตอบสนอง ต่อคำสั่งหน่วยงานราชการได้อย่างมีประสิทธิภาพยิ่งขึ้น และสามารถรองรับปริมาณงานที่เพิ่มขึ้นได้โดยไม่จำเป็นต้องเพิ่มผู้ปฏิบัติงาน
+
+==================================================================================================== 
+Project code: P31
+
+Name : Data Right ,Trade Bright (MR.)
+
+Detail : สร้าง AI ตรวจสอบความถูกต้องของการบันทึกธุรกรรมของพนักงานบนระบบงาน ที่มาจากเสียงสนทนาการตกลงทำธุรกรรมของลูกค้า/คู่ค้า ธุรกิจห้องค้าตลาดเงินและตลาดทุน
+
+
+Problem : 1. การทำงานของ Sales ปัจจุบันยังมีความเสี่ยงเรื่องการบันทึกข้อมูลธุรกรรมที่มาจากลูกค้า/คู่ค้าลงบนระบบผิดพลาด เนื่องจากเป็นโทรสนทนากับลูกค้า/คู่ค้า และจดรายละเอียดลงบนกระดาษเพื่อนำไปบันทึกข้อมูลธุรกรรมบนระบบงาน
+2. Sales ต้องใช้เวลาในแต่ละวันเพื่อมา reconcile โดยการ cross-check รายละเอียดธุรกรรมที่เกิดขึ้น ทุกสิ้นวัน
+
+Solution : 1. ช่วยให้การบันทึกข้อมูลธุรกรรมของ Sales ลงในระบบ มีความแม่นยำถูกต้องมากขึ้น โดยการ cross-check กับ AI ที่แปลงจากเสียงการสนทนาเป็นตัวหนังสือ
+2. ช่วยลดกระบวนการที่ Sales ต้องมา reconcile รายละเอียดธุรกรรมทุกสิ้นวัน โดย AI สามารถ cross-check ข้อมูลได้แทน
+
+Outcome : 9.1) ลดจำนวนการบันทึกธุรกรรมผิดพลาดของ Sales
+9.2) ลดระยะเวลาการทำงานในการ reconcile รายละเอียดธุรกรรมในแต่ละวัน โดย Sales สามารถไปทำงานอย่างอื่น หรือรับ Deal ได้มากขึ้น
+
+==================================================================================================== 
+Project code: P32
+
+Name :  WBG AI Risk Data Analytics (ZZ.)
+
+Detail : ใช้ AI และ tool ในการแสดงผลและตอบคำถาม งาน Risk Data ของสายงาน regional ERM-WBG
+
+Problem : ปัจจุบัน ผู้บริหารและพนักงานมีความต้องการเข้าถึงข้อมูลอย่างรวดเร็วและทันที ส่งผลให้บางครั้งไม่สามารถตอบคำถามได้อย่างทันท่วงที ซึ่งต้องเสียเวลาในการเตรียมข้อมูลในส่วนนี้เป็นอย่างมาก จึงมีความต้องการลดภาระงานในส่วนดังกล่าวลง.
+
+Solution : AI ช่วยสรุปผล ตอบคำถาม แสดงภาพ กราฟ ตามข้อมูลที่มีอยู่ใน KBank
+
+Outcome : - ลด working-hours ของฝ่ายงาน
+- เพิ่มความครบถ้วน และ การแสดงผลในแง่มุมที่เพิ่มขึ้น
+- ผู้บริหาร ได้รับข้อมูล ทันที
+

@@ -1,0 +1,31 @@
+Here is the instruction
+
+AI Hackathon Project Evaluation Prompt
+Context:
+You are evaluating an AI hackathon project based on four categories: Business Impact, Feasibility, 
+Scalability, and Creativity. Each category is rated on a scale of 1 to 100.
+
+Evaluation Criteria:
+- Business Impact (1-100): How significantly does this project improve financial performance or productivity?
+- Feasibility (1-100): How realistic is it to implement given existing technology and constraints?
+- Scalability (1-100): Can the solution be expanded to other areas or scaled to a larger user base?
+- Creativity (1-100): How innovative is the idea compared to existing solutions?
+
+Instructions for AI:
+    - Provide clear and structured reasoning for each score.
+    - Include justifications why points were awarded and deducted for a balanced evaluation.
+    - Responses must be detailed but concise to maintain clarity.
+
+Output must be in Thai language.
+
+All outputs must be tabulated in the following columns, which are 
+- Project Code
+- Project Name
+- Business Impact Score
+- Feasibility Score
+- Scalability Score
+- Creativity Score
+- Explanation of Business Impact [Awarded & Deducted] 
+- Explanation of Feasibility [Awarded & Deducted] 
+- Explanation of Scalability [Awarded & Deducted] 
+- Explanation of Creativity [Awarded & Deducted] 
