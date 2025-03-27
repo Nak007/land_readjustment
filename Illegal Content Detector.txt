@@ -1,0 +1,263 @@
+import requests
+import json
+import re
+import pandas as pd
+from datetime import datetime
+
+class ChatGPT:
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.base_url = "https://api.openai.com/v1/chat/completions"
+        self.headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+    
+    # def chat(self, message, model="gpt-3.5-turbo", temperature=0.3):
+    # def chat(self, message, model="gpt-4o", temperature=0.7):
+    def chat(self, message, model="gpt-4o-mini", temperature=0.7):
+        try:
+            data = {
+                "model": model,
+                "messages": [{"role": "user", "content": message}],
+                "temperature": temperature,
+                "response_format": {"type": "json_object"}  # บังคับให้ส่งคืนเป็น JSON
+            }
+
+            response = requests.post(
+                self.base_url,
+                headers=self.headers,
+                json=data,
+                timeout=120
+            )
+
+            # ตรวจสอบสถานะการตอบกลับ
+            if response.status_code == 200:
+                return {
+                    "status": "success",
+                    "message": response.json()['choices'][0]['message']['content']
+                }
+            else:
+                return {
+                    "status": "error",
+                    "message": f"API Error: {response.status_code} - {response.text}"
+                }
+
+        except requests.exceptions.RequestException as e:
+            return {
+                "status": "error",
+                "message": f"Request Error: {str(e)}"
+            }
+        except Exception as e:
+            return {
+                "status": "error",
+                "message": f"General Error: {str(e)}"
+            }
+    
+    def extract_json_from_text(self, text):
+        """
+        ดึงข้อมูล JSON จากข้อความที่อาจมีเครื่องหมาย backticks หรือคำว่า 'json'
+        """
+        try:
+            # แปลงข้อความเป็น JSON โดยตรง
+            return json.loads(text)
+        except json.JSONDecodeError:
+            # ถ้าไม่สำเร็จ ค้นหาส่วนที่เป็น JSON ในข้อความ
+            # ลองหาในรูปแบบ ``````
+            json_pattern = r'``````'
+            match = re.search(json_pattern, text, re.DOTALL)
+            
+            if match:
+                json_text = match.group(1).strip()
+                try:
+                    return json.loads(json_text)
+                except json.JSONDecodeError as e:
+                    raise Exception(f"ไม่สามารถแปลงข้อความเป็น JSON ได้: {str(e)}")
+            
+            # ถ้าไม่พบรูปแบบ backticks หาเฉพาะส่วนที่อยู่ในวงเล็บปีกกา
+            json_pattern = r'{.*}'
+            match = re.search(json_pattern, text, re.DOTALL)
+            
+            if match:
+                json_text = match.group(0).strip()
+                try:
+                    return json.loads(json_text)
+                except json.JSONDecodeError as e:
+                    raise Exception(f"ไม่สามารถแปลงข้อความเป็น JSON ได้: {str(e)}")
+            
+            raise Exception("ไม่พบข้อมูล JSON ในข้อความ")
+        
+def fetch_website_content(url):
+    try:
+        
+        import requests
+        from bs4 import BeautifulSoup
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # ตรวจสอบว่า request สำเร็จหรือไม่
+        
+        # ใช้ BeautifulSoup เพื่อแยกวิเคราะห์ HTML
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # ดึงเนื้อหาที่ต้องการวิเคราะห์
+        content = soup.get_text(separator=' ', strip=True)
+        
+        return content
+    except Exception as e:
+        return f"เกิดข้อผิดพลาดในการดึงข้อมูล: {str(e)}"
+
+
+
+def main():
+    # ระบุ API key
+    api_key = ""
+    
+    # สร้าง instance ของ ChatGPT
+    chatbot = ChatGPT(api_key)
+    
+    # ดึงเนื้อหาเว็บไซต์ 
+    url = "https://www.thereplicahause.is/"
+    # url = "https://3dsthailand.com/"
+    website_content = fetch_website_content(url)
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # prompt สำหรับการวิเคราะห์เว็บไซต์
+    prompt = f'''You are an expert in website content analysis specializing in detecting illegal content. Analyze the following website for illegal or suspicious content.
+
+Website URL: {url}
+Analysis Date: {current_time}
+
+Website Content:
+{website_content}
+
+IMPORTANT INSTRUCTIONS:
+
+1. You must analyze both text content AND infer what might be in images based on website context, even if you cannot see the images directly.
+2. Based on the website's text content, purpose, and context, infer and assume what types of images and content are likely present.
+3. Apply specific rules for each category as defined in the "Focus on identifying patterns" section below.
+4. You do not need to see the actual images to make determinations - use the website's overall context.
+5. Include OCR analysis by inferring what text might be present in images based on website context.
+6. Calculate token usage information for your response.
+
+Return the analysis results in the following JSON format only:
+{{
+"Analysis_Date": "{current_time}",
+"URL": "{url}",
+"Merchant_Name": "<Extracted merchant name >",
+"Category": "<One of: GAMBLING, PORNOGRAPHY, TOBACCO, PHARMACEUTICALS, DESIGNER_DRUGS, SUPPLEMENTS, COUNTERFEIT, OTHER_ILLEGAL>",
+
+text
+"Text_Detected_Keywords": ["<List of detected keywords in text>"],
+"Text_Suspicious_Phrases": ["<List of suspicious phrases in text>"],
+"Text_Context_Description": "<Description of suspicious context from text>",
+"Text_Suspicious_Elements": ["<List of suspicious elements from text>"],
+"Text_Risk_Level": <Risk score between 0-100 for text only>,
+"Text_Evidence_Details": "<Details of evidence found in text>",
+
+"Image_Visual_Red_Flags": ["<List of visual red flags in images>"],
+"Image_Suspicious_Elements": ["<List of suspicious elements in images>"],
+"Image_Risk_Level": <Risk score between 0-100 for images only>,
+"Image_Evidence_Details": "<Details of evidence found in images>",
+
+"OCR_Text": "<Extracted text from images>",
+"OCR_Detected_Keywords": ["<List of detected keywords in OCR text>"],
+"OCR_Suspicious_Phrases": ["<List of suspicious phrases in OCR text>"],
+"OCR_Risk_Level": <Risk score between 0-100 for OCR text only>,
+"OCR_Evidence_Details": "<Details of evidence found in OCR text>",
+
+"Hidden_Content": ["<List of hidden content found>"],
+"Overall_Context_Description": "<Overall description of suspicious context>",
+"Combined_Risk_Level": <Combined risk score between 0-100>,
+"Status": "<One of: High Risk, Medium Risk, Low Risk>",
+"Primary_Concerns": ["<List of primary concerns>"],
+"Recommended_Actions": ["<List of recommended actions>"],
+
+"Priority_Level": "<One of: High, Medium, Low>",
+"Screenshot_Reference": "<Optional screenshot reference>",
+"Abnormal_URL": "<Full URL of page with abnormal content>",
+"Abnormal_Type": "<Main URL or Sub URL>",
+"Abnormal_Issues": ["<List of abnormalities found on this specific URL>"],
+"Abnormal_Risk_Level": <Risk score between 0-100 for this specific URL>,
+
+"Input_Tokens": <Number of input tokens used>,
+"Output_Tokens": <Number of output tokens used>,
+"Total_Tokens": <Total number of tokens used>
+}}
+
+Guidelines for analysis:
+
+1. Use the provided website content to identify suspicious patterns.
+2. Category must be one of the predefined categories.
+3. Risk_Level values must be numeric between 0-100.
+4. Status must be based on Combined_Risk_Level:
+    - High Risk (67-100)
+    - Medium Risk (34-66)
+    - Low Risk (0-33)
+5. Apply a standard risk threshold for all categories:
+    - For any detected illegal content, set Risk_Level to at least 75
+    - Combined_Risk_Level should be at least 75 for high-risk content
+    - Text_Risk_Level, Image_Risk_Level, and OCR_Risk_Level should use the same threshold scale
+6. For OCR analysis, infer what text might be present in images based on website context and purpose.
+7. Estimate token usage as follows:
+    - Input_Tokens: Approximate number of tokens in this prompt plus website content
+    - Output_Tokens: Approximate number of tokens in your JSON response
+    - Total_Tokens: Sum of input and output tokens
+
+Focus on identifying patterns related to:
+    - Illegal or miscoded online gambling (e.g., unlicensed casinos, sports betting, poker sites without proper verification)
+    - Prohibited pornography (e.g., child abuse, bestiality, rape, or any other non-consensual sexual behavior)
+    - Contraband tobacco (e.g., untaxed cigarettes, illegal tobacco products, cross-border tobacco sales)
+    - Illegal or counterfeit pharmaceuticals (e.g., prescription drugs sold without prescription, fake medications)
+    - Designer drugs (e.g., synthetic cannabinoids, research chemicals, novel psychoactive substances)
+    - Illegal supplements/nutraceuticals (e.g., banned supplements, products with undeclared ingredients)
+    - Counterfeit goods/intellectual property (IP) infringing materials (e.g., fake luxury items, unauthorized replicas, pirated content)
+    - Illegal sale of any other products or services (e.g., weapons, stolen data, hacking services, fake documents)
+
+IMPORTANT: For any website that appears to offer illegal products or services in any of the 8 categories, you MUST infer the likely content of images and set appropriate risk levels, even without seeing the actual images.
+Return only the JSON object without any additional text or explanation.'''
+    
+    # ส่ง prompt ไปยัง ChatGPT
+    response = chatbot.chat(prompt)
+    
+    if response["status"] == "success":
+        print("การวิเคราะห์เว็บไซต์:")
+        print(response['message'])
+        
+        # แปลงผลลัพธ์เป็น JSON object
+        try:
+            # ใช้ฟังก์ชันเพื่อดึง JSON จากข้อความ
+            analysis_result = chatbot.extract_json_from_text(response['message'])
+            print("\nแปลงเป็น JSON สำเร็จ!")
+            
+        
+            print("\nJSON ที่จัดรูปแบบ:")
+            print(json.dumps(analysis_result, indent=2, ensure_ascii=False))
+            
+            # แปลง JSON เป็น DataFrame
+            # สำหรับฟิลด์ที่เป็นรายการ (list) จะแปลงเป็นข้อความคั่นด้วยเครื่องหมาย comma
+            for key, value in analysis_result.items():
+                if isinstance(value, list):
+                    analysis_result[key] = ', '.join(value)
+            
+            # สร้าง DataFrame จาก JSON
+            df = pd.DataFrame([analysis_result])
+            
+            # แสดงผลในรูปแบบตาราง
+            print("\nข้อมูลในรูปแบบ DataFrame:")
+            pd.set_option('display.max_columns', None)  # แสดงทุกคอลัมน์
+            pd.set_option('display.width', 1000)  # กำหนดความกว้างของการแสดงผล
+            print(df)
+            
+
+            
+        except Exception as e:
+            print(f"เกิดข้อผิดพลาดในการแปลงผลลัพธ์: {str(e)}")
+    else:
+        print(f"เกิดข้อผิดพลาด: {response['message']}")
+
+if __name__ == "__main__":
+    main()
